@@ -6,12 +6,12 @@ export function MailCompose({ sendMail, toggleCompose }) {
     const [mail, setMail] = useState(mailsService.getEmptyMail())
 
     function onAddMail(ev) {
-       ev.preventDefault()
+        ev.preventDefault()
         sendMail(mail)
         toggleCompose()
     }
 
-   function handleChange({ target }) {
+    function handleChange({ target }) {
         const { type, name: field } = target
         let { value } = target
 
@@ -26,7 +26,7 @@ export function MailCompose({ sendMail, toggleCompose }) {
                 break
         }
 
-      setMail((prevMail) => ({ ...prevMail, [field]: value }))
+        setMail((prevMail) => ({ ...prevMail, [field]: value }))
     }
 
     const { createdAt } = mail
@@ -40,45 +40,44 @@ export function MailCompose({ sendMail, toggleCompose }) {
             >
                 <div className='compose-modal'>
                     <h1>Compose</h1>
-                    <button className='btn-toggle-modal' onClick={toggleCompose}>
+                    <button
+                        className='btn-toggle-modal'
+                        onClick={toggleCompose}
+                    >
                         X
                     </button>
                     <label className='bold-txt' htmlFor='send-to'>
-                       To:
-                </label>
-                 <input
-                        // autoFocus
-                        name='send-to'
+                        To:
+                    </label>
+                    <input
                         type='text'
-                   id='send-to'
-                   value={mail.to}
+                        id='send-to'
+                        name='send-to'
+                        value={mail.to}
                         onChange={handleChange}
+                        autoFocus
                 />
-                <label className='bold-txt' htmlFor='subject'>
+                
+                    <label className='bold-txt' htmlFor='subject'>
                         Subject
                     </label>
-
                     <input
                         type='text'
                         id='subject'
-                   name='subject'
-                   value={mail.subject}
-                   
+                        name='subject'
+                        value={mail.subject}
                         onChange={handleChange}
                 />
-                <label className='bold-txt' htmlFor='body'>
-                        
-                    </label>
-
+                
+                    <label className='bold-txt' htmlFor='body'></label>
                     <input
                         type='text'
                         id='body'
-                   name='body'
-                   value={mail.body}
-                   
+                        name='body'
+                        value={mail.body}
                         onChange={handleChange}
-                />
-                 <button>Send</button>
+                    />
+                    <button>Send</button>
                 </div>
             </form>
         </section>
