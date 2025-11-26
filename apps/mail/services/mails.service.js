@@ -1,13 +1,14 @@
-import { utilService } from './util.service.js'
-import { storageService } from './async-storage.service.js'
+import { utilService } from '../../../services/util.service.js'
+import { storageService } from '../../../services/async-storage.service.js'
 
 const MAIL_KEY = 'MailDB'
 const loggedinUser = {
     email: 'user@appsus.com',
     fullname: 'Mahatma Appsus',
 }
+_createMails()
 
-export const mailService = {
+export const mailsService = {
     query,
     get,
     remove,
@@ -55,7 +56,7 @@ function getDefaultFilter(filterBy = { subject: '', isRead: false }) {
 
 
 function _createMails() {
-    const mails = utilService.loadFromStorage(BOOK_KEY) || []
+    const mails = utilService.loadFromStorage(MAIL_KEY) || []
 
     if (mails && mails.length) return
 
@@ -73,7 +74,7 @@ function _createMails() {
         }
         mails.push(mail)
     }
-    utilService.saveToStorage(BOOK_KEY, mails)
+    utilService.saveToStorage(MAIL_KEY, mails)
 }
 
 
