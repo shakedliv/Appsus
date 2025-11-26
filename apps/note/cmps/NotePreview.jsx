@@ -1,4 +1,5 @@
-export function NotePreview({ note }) {
+export function NotePreview({ note, onDelete, onDuplicate, onPin, onChangeColor, onEdit }) {
+
 
     function renderNoteByType() {
         switch (note.type) {
@@ -39,6 +40,32 @@ export function NotePreview({ note }) {
     return (
         <article className="note-preview" style={note.style}>
             {renderNoteByType()}
+            <div className="note-actions">
+
+    <button onClick={() => onDelete(note.id)}>🗑️</button>
+
+    <button onClick={() => onDuplicate(note)}>📄</button>
+
+    <button onClick={() => onPin(note)}>📌</button>
+
+    <div className="color-picker">
+    {['#fff475', '#f28b82', '#fbbc04', '#ccff90', '#a7ffeb', '#cbf0f8', '#aecbfa', '#d7aefb']
+        .map(color => (
+            <span
+                key={color}
+                className="color-option"
+                style={{ backgroundColor: color }}
+                onClick={() => onChangeColor(note.id, color)}
+            ></span>
+        ))
+    }
+</div>
+
+    <button onClick={() => onEdit(note)}>✏️</button>
+
+</div>
+
         </article>
+        
     )
 }
