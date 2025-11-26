@@ -4,10 +4,12 @@ import { noteService } from '../services/note.service.js'
 import { utilService } from '../../services/util.service.js'
 import { NoteList } from '../cmps/NoteList.jsx'
 import { NoteAdd } from '../cmps/NoteAdd.jsx'
+import { NoteEdit } from '../cmps/NoteEdit.jsx'
 
 export function NoteIndex() {
 
     const [notes, setNotes] = useState([])
+    const [noteToEdit, setNoteToEdit] = useState(null)
 
     useEffect(() => {
         loadNotes()
@@ -54,7 +56,16 @@ export function NoteIndex() {
     }
 
     function onEdit(note) {
-        console.log('Edit mode for:', note)
+        setNoteToEdit(note)
+    }
+
+    function onSaveEdit(updatedNote) {
+        noteService.save(updatedNote).then(saved => {
+            setNotes(prev =>
+                prev.map(n => (n.id === saved.id ? saved : n))
+            )
+            setNoteToEdit(null)
+        })
     }
 
     function onChangeColor(noteId, color) {
@@ -84,6 +95,13 @@ export function NoteIndex() {
                 onChangeColor={onChangeColor}
                 onEdit={onEdit}
             />
+             {noteToEdit &&
+                <NoteEdit
+                    note={noteToEdit}
+                    onSave={onSaveEdit}
+                    onClose={() => setNoteToEdit(null)}
+                />
+            }
 
         </section>
     )
