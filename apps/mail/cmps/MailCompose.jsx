@@ -52,7 +52,7 @@ export function MailCompose({ sendMail, toggleCompose }) {
                     <input
                         type='text'
                         id='send-to'
-                        name='send-to'
+                        name='to'
                         value={mail.to}
                         onChange={handleChange}
                         autoFocus
