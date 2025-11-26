@@ -1,4 +1,22 @@
 .mail-prev{
    gap: 2em;
    place-items: center;
+   padding-inline-start: 0.3em;
+    font-size: 1em;
+    height: fit-content;
+    padding: 0.1em;
+    margin-bottom: 0.5em;
+}
+
+.is-read{
+   background-color: #F2F6FC;
+}
+
+.mail-prev h3{
+   font-size: 1em;
+   margin: 0;
+   padding: 0;
+}
+.mail-prev p{
+   margin: 0;
 }

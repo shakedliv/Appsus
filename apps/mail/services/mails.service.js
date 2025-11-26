@@ -13,20 +13,21 @@ export const mailsService = {
     get,
     remove,
     save,
-   getEmptyMail,
+    getEmptyMail,
     getDefaultFilter,
+    setIsRead,
 }
 
 function query(filterBy = {}) {
     return storageService.query(MAIL_KEY).then((mails) => {
-        if (filterBy.subject) {
-            const regExp = new RegExp(filterBy.subject, 'i')
-            mails = mails.filter((mail) => regExp.test(mail.subject))
-        }
+        //   if (filterBy.subject) {
+        //       const regExp = new RegExp(filterBy.subject, 'i')
+        //       mails = mails.filter((mail) => regExp.test(mail.subject))
+        //   }
 
-        filterBy.isRead
-            ? (mails = mails.filter((mail) => mail.isRead === true))
-            : (mails = mails.filter((mail) => mail.isRead === false))
+        //   filterBy.isRead
+        //       ? (mails = mails.filter((mail) => mail.isRead === true))
+        //       : (mails = mails.filter((mail) => mail.isRead === false))
 
         return mails
     })
@@ -49,26 +50,33 @@ function save(mail) {
     }
 }
 
-
 function getDefaultFilter(filterBy = { subject: '', isRead: false }) {
     return { subject: filterBy.subject, isRead: filterBy.isRead }
 }
-
+function setIsRead(mailID) {
+    return get(mailID).then((mail) => {
+        mail.isRead = true
+        console.log('mail:', mail)
+        return save(mail)
+    })
+}
 
 function _createMails() {
     const mails = utilService.loadFromStorage(MAIL_KEY) || []
-   const hour = 1000 * 60 * 60
+    const hour = 1000 * 60 * 60
     if (mails && mails.length) return
 
-   for (let i = 0; i < 20; i++) {
-       const creationTime = Date.now() - utilService.getRandomIntInclusive(0,hour * 1000)
+    for (let i = 0; i < 20; i++) {
+        const creationTime =
+            Date.now() - utilService.getRandomIntInclusive(0, hour * 1000)
         const mail = {
             id: utilService.makeId(),
             subject: utilService.makeLorem(3),
             body: utilService.makeLorem(50),
             createdAt: creationTime,
-            isRead: false,
-            sentAt: creationTime - utilService.getRandomIntInclusive(0, hour * 999),
+            isRead: Math.random() < 0.4,
+            sentAt:
+                creationTime - utilService.getRandomIntInclusive(0, hour * 999),
             removedAt: null,
             from: utilService.getRandomEmail(),
             to: loggedinUser.email,
@@ -78,26 +86,16 @@ function _createMails() {
     utilService.saveToStorage(MAIL_KEY, mails)
 }
 
-
-
 function getEmptyMail() {
     return {
-        fullName: 'new name',
-        rating: 0,
-        date: new Date().toISOString().slice(0, 10),
-        txt: '',
-       selected: 0,
-
-            id: utilService.makeId(),
-            subject: null,
-            body: null,
-            createdAt: Date.now(),
-            isRead: false,
-            sentAt: null,
-            removedAt: null,
-            from: null,
-            to: null,
+        id: utilService.makeId(),
+        subject: '',
+        body: '',
+        createdAt: Date.now(),
+        isRead: false,
+        sentAt: null,
+        removedAt: null,
+        from: loggedinUser.fullname,
+        to: '',
     }
 }
-
-

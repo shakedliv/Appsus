@@ -1,0 +1,23 @@
+.compose-mail {
+   
+    position: fixed;
+    z-index: 10;
+    bottom: 1vh;
+    right: 1vw;
+    left: 60vw;
+    top: 40vh;
+    background-color: white;
+    border:1px solid darkgray;
+    overflow: auto;
+}
+
+.compose-mail .btn-toggle-modal {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 5px 7px;
+    margin: 0;
+}
+.compose-mail .body{
+   height: 80%;
+}

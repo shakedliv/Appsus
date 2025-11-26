@@ -21,3 +21,7 @@
 .grid {
     display: grid;
 }
+
+.bold-txt {
+    font-weight: bold;
+}
