@@ -12,7 +12,8 @@ export const mailService = {
     get,
     remove,
     save,
-    getEmptyMail,
+   getEmptyMail,
+    getDefaultFilter,
 }
 
 function query(filterBy = {}) {
@@ -46,6 +47,12 @@ function save(mail) {
         return storageService.post(MAIL_KEY, mail)
     }
 }
+
+
+function getDefaultFilter(filterBy = { subject: '', isRead: false }) {
+    return { subject: filterBy.subject, isRead: filterBy.isRead }
+}
+
 
 function _createMails() {
     const mails = utilService.loadFromStorage(BOOK_KEY) || []
@@ -90,3 +97,5 @@ function getEmptyMail() {
             to: null,
     }
 }
+
+
