@@ -67,7 +67,7 @@ function _createMails() {
             body: utilService.makeLorem(50),
             createdAt: Date.now(),
             isRead: false,
-            sentAt: null,
+            sentAt: Date.now(),
             removedAt: null,
             from: 'momo@momo.com',
             to: loggedinUser.email,
