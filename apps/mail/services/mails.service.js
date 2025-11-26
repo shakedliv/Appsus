@@ -57,19 +57,20 @@ function getDefaultFilter(filterBy = { subject: '', isRead: false }) {
 
 function _createMails() {
     const mails = utilService.loadFromStorage(MAIL_KEY) || []
-
+   const hour = 1000 * 60 * 60
     if (mails && mails.length) return
 
-    for (let i = 0; i < 20; i++) {
+   for (let i = 0; i < 20; i++) {
+       const creationTime = Date.now() - utilService.getRandomIntInclusive(0,hour * 1000)
         const mail = {
             id: utilService.makeId(),
             subject: utilService.makeLorem(3),
             body: utilService.makeLorem(50),
-            createdAt: Date.now(),
+            createdAt: creationTime,
             isRead: false,
-            sentAt: Date.now(),
+            sentAt: creationTime - utilService.getRandomIntInclusive(0, hour * 999),
             removedAt: null,
-            from: 'momo@momo.com',
+            from: utilService.getRandomEmail(),
             to: loggedinUser.email,
         }
         mails.push(mail)

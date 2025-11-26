@@ -8,7 +8,8 @@ export const utilService = {
     getMonthName,
     loadFromStorage,
     saveToStorage,
-    getDayInMonth
+   getDayInMonth,
+    getRandomEmail
 }
 
 function saveToStorage(key, val) {
@@ -77,4 +78,22 @@ function getMonthName(date) {
 function getDayInMonth(date) {
     date = new Date(date)
     return date.getDate()
+}
+
+function getRandomEmail() {
+    const names = [
+        "shaked", "noa", "david", "lior", "mor", "ron", "daniel",
+        "maya", "eden", "shira", "yossi", "tal", "yonatan", "gal",
+        "neta", "amit", "ella", "yoni", "hofit", "naama", "erez",
+        "nir", "or", "stav", "lea", "omer", "yarden", "tamar",
+        "sapir", "aviv", "reeut", "guy", "meir", "yael", "hadas",
+        "inbal", "liel", "adi", "hen", "rotem", "alon", "itai",
+        "barak", "yoni", "ziv", "dor", "Daniela", "Michal",
+        "hodaya"
+    ]
+
+    const randomName = names[Math.floor(Math.random() * names.length)]
+    const randomNumber = Math.floor(Math.random() * 10000) // 0–9999
+
+    return `${randomName}${randomNumber}@gmail.com`
 }

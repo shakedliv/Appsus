@@ -8,11 +8,13 @@ export function MailPreview({ mail }) {
    const {getDayInMonth, getMonthName} = utilService
 
     return (
-        <Link to={`/mail/${mail.id}`}><article className='mail-prev flex'>
+      //  <Link to={`/mail/${mail.id}`}>
+          <article className='mail-prev flex'>
             <h3>{from}</h3>
-          <p><span>subject:</span> {subject}</p>
-          <span>{utilService.getMonthName(sentAt)}</span> <span>{utilService.getDayInMonth(sentAt)}</span>
-        </article></Link>
+          <p>{subject}</p>
+         <p> <span>{utilService.getMonthName(sentAt)}</span> <span>{utilService.getDayInMonth(sentAt)}</span></p>
+          </article>
+      //  </Link>
     )
 
 }
