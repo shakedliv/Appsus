@@ -6,7 +6,6 @@ const { Link, NavLink } = ReactRouterDOM
 
 export function MailPreview({ mail }) {
    const { subject, from, sentAt } = mail
-   const { getDayInMonth, getMonthName } = utilService
    const MailRead = mail.isRead ? 'is-read' : ''
    function onSetIsRead(mailId) {
    mailsService.setIsRead(mailId)
