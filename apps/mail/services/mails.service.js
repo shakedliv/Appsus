@@ -61,6 +61,7 @@ function setIsRead(mailID) {
     })
 }
 
+
 function _createMails() {
     const mails = utilService.loadFromStorage(MAIL_KEY) || []
     const hour = 1000 * 60 * 60
@@ -88,7 +89,6 @@ function _createMails() {
 
 function getEmptyMail() {
     return {
-        id: utilService.makeId(),
         subject: '',
         body: '',
         createdAt: Date.now(),

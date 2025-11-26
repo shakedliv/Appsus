@@ -8,18 +8,23 @@ const { useEffect, useState } = React
 
 export function MailIndex() {
    const [mails, setMails] = useState([])
-    const [isShowComposeModal, setIsShowComposeModal] = useState(null)
+   const [unReadCounter, setUnReadCounter] = useState(0)
+   const [isShowComposeModal, setIsShowComposeModal] = useState(null)
+   const [isLoading, setIsLoading] = useState(true)
+   
    
 
     // const [filterBy, setFilterBy] = useState(mailsService.getDefaultFilter())
     useEffect(() => {
-         loadMails()
+       loadMails()
     }, [])
-
    
     function onSendMail(composedMail) {
         mailsService.save(composedMail)
-            .then(() => console.log('success'))
+            .then(() => {
+                console.log('success')
+                loadMails()
+            })
             .catch((err) => {
                 console.log('err:', err)
             })
@@ -30,8 +35,19 @@ export function MailIndex() {
     }
 
    function loadMails() {
-        mailsService.query().then((mails) => setMails(mails))
-    }
+       setIsLoading(true)
+      mailsService.query().then((loadedMails) => {
+        console.log('loadedMails:', loadedMails)
+            setMails(loadedMails) 
+            const unread = loadedMails.filter(mail => !mail.isRead).length
+            setUnReadCounter(unread)
+        })
+      .finally(() => {
+               setIsLoading(false)
+            })
+   }
+   
+   if (isLoading || !mails) return <div className="loader">Loading...</div>
 
     //     function onSetFilterBy(newFilter) {
     //         setFilterBy(filter => ({ ...filter, ...newFilter }))
@@ -54,7 +70,7 @@ export function MailIndex() {
       <main>
         <button onClick={onToggleComposeModal} className='compose-mail-btn'><i className="fa-light fa-pencil"></i> Compose </button>
         <section className='mails-index mails-container'>
-            <h2>Inbox</h2>
+            <h2>Inbox <span>Unread mails: {unReadCounter}</span></h2>
             {/* <MailFilter filterBy={filterBy} onFilterBy={onSetFilterBy} /> */}
             {/* <Link to="/Mail/edit"><button className='add-Mail'>Add Mail</button></Link> */}
             <MailList mails={mails} />

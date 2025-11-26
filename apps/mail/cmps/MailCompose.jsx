@@ -35,7 +35,7 @@ export function MailCompose({ sendMail, toggleCompose }) {
         <section onClick={toggleCompose} className='compose-mail flex'>
             <form
                 onClick={(ev) => ev.stopPropagation()}
-                onSubmit={sendMail}
+                onSubmit={onAddMail}
                 className='compose-form '
             >
                 <div className='compose-modal'>
