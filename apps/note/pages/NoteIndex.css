@@ -3,43 +3,32 @@
     padding: 16px;
 }
 
+.note-list {
+    padding: 16px 0;
+}
+
 .note-list ul {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
     list-style: none;
     margin: 0;
     padding: 0;
-
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
 }
 
-@media (min-width: 600px) {
-    .note-list ul {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (min-width: 900px) {
-    .note-list ul {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (min-width: 1300px) {
-    .note-list ul {
-        grid-template-columns: repeat(4, 1fr);
-    }
+.note-list li {
+    list-style: none;
 }
 
 .note-preview {
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 16px;
+    /* display: block; */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-
-    word-break: break-word;
-
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 180px;
     box-shadow:
         0px 1px 2px rgba(0, 0, 0, 0.08),
         0px 2px 6px rgba(0, 0, 0, 0.08);
@@ -48,38 +37,42 @@
 
 .note-preview:hover {
     box-shadow:
-        0px 4px 8px rgba(0, 0, 0, 0.12),
+        0px 4px 8px rgba(0, 0, 0, 0.1),
         0px 6px 18px rgba(0, 0, 0, 0.15);
 }
 
-.note-preview p,
-.note-preview .note-text {
-    font-size: 1.05rem;
-    line-height: 1.4;
+.note-img {
+    margin-bottom: 12px;
 }
 
-.note-actions {
-    margin-top: 12px;
-    display: flex;
-    gap: 8px;
-    justify-content: flex-end;
+.note-img img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 6px;
 }
 
-.note-actions button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1rem;
-    opacity: 0.6;
+
+.note-yellow {
+    background-color: #fef3b7;
 }
 
-.note-actions button:hover {
-    opacity: 1;
+.note-blue {
+    background-color: #d7e3fc;
 }
 
-.note-yellow   { background-color: #fef3b7; }
-.note-blue     { background-color: #d7e3fc; }
-.note-red      { background-color: #ffd7d7; }
-.note-orange   { background-color: #ffe7c7; }
-.note-green    { background-color: #e1f5d3; }
-.note-pink     { background-color: #ffd9f1; }
+.note-red {
+    background-color: #ffd7d7;
+}
+
+.note-orange {
+    background-color: #ffe7c7;
+}
+
+.note-green {
+    background-color: #e1f5d3;
+}
+
+.note-pink {
+    background-color: #ffd9f1;
+}

@@ -1,0 +1,54 @@
+.color-btn {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    opacity: 0.7;
+    padding: 4px;
+    transition: opacity 0.2s ease;
+}
+
+.color-btn:hover {
+    opacity: 1;
+}
+
+.color-picker-wrapper {
+    position: relative;
+}
+
+.color-popup {
+    position: absolute;
+    bottom: 120%;
+    left: 0;
+    display: flex;
+    gap: 6px;
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow:
+        0 2px 6px rgba(0,0,0,0.15),
+        0 4px 12px rgba(0,0,0,0.15);
+    z-index: 999;
+}
+
+.color-option {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+
+.color-option:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+}
+
+.color-option.note-yellow { background-color: #fef3b7; }
+.color-option.note-blue   { background-color: #d7e3fc; }
+.color-option.note-red    { background-color: #ffd7d7; }
+.color-option.note-orange { background-color: #ffe7c7; }
+.color-option.note-green  { background-color: #e1f5d3; }
+.color-option.note-pink   { background-color: #ffd9f1; }

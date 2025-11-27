@@ -1,0 +1,21 @@
+
+
+@media (min-width: 600px) {
+    .note-list ul {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 900px) {
+    .note-list ul {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1300px) {
+    .note-list ul {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+
