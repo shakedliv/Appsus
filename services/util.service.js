@@ -22,7 +22,7 @@ export const utilService = {
     debounce,
     getRandomKeepColor
 }
-
+ 
 function saveToStorage(key, val) {
     localStorage.setItem(key, JSON.stringify(val))
 }
