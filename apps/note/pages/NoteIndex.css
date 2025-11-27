@@ -3,8 +3,13 @@
     padding: 16px;
 }
 
-.note-list {
+/* .note-list {
     padding: 16px 0;
+} */
+
+.note-list {
+    margin-bottom: 24px;
+    /* display: block; */
 }
 
 .note-list ul {
@@ -52,6 +57,12 @@
     border-radius: 6px;
 }
 
+.note-section-title {
+    margin: 16px 0 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #555;
+}
 
 .note-yellow {
     background-color: #fef3b7;
