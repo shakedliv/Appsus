@@ -68,17 +68,17 @@ export function NoteIndex() {
         })
     }
 
-    function onChangeColor(noteId, color) {
-        noteService.get(noteId).then(note => {
-            const updated = { ...note, style: { ...note.style, backgroundColor: color } }
+    function onChangeColor(noteId, colorClass) {
+    noteService.get(noteId).then(note => {
+        const updated = { ...note, colorClass }
 
-            noteService.save(updated).then(saved => {
-                setNotes(prev =>
-                    prev.map(n => (n.id === saved.id ? saved : n))
-                )
-            })
+        noteService.save(updated).then(saved => {
+            setNotes(prev =>
+                prev.map(n => (n.id === saved.id ? saved : n))
+            )
         })
-    }
+    })
+}
 
     return (
         <section className="note-index">

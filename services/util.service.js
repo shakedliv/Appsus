@@ -1,3 +1,12 @@
+const KEEP_COLORS = [
+    'note-yellow',
+    'note-blue',
+    'note-red',
+    'note-orange',
+    'note-green',
+    'note-pink'
+]
+
 export const utilService = {
     makeId,
     makeLorem,
@@ -9,7 +18,8 @@ export const utilService = {
     loadFromStorage,
     saveToStorage,
    getDayInMonth,
-    getRandomEmail
+    getRandomEmail,
+    getRandomKeepColor
 }
 
 function saveToStorage(key, val) {
@@ -96,4 +106,9 @@ function getRandomEmail() {
     const randomNumber = Math.floor(Math.random() * 10000) // 0–9999
 
     return `${randomName}${randomNumber}@gmail.com`
+}
+
+function getRandomKeepColor() {
+    const idx = Math.floor(Math.random() * KEEP_COLORS.length)
+    return KEEP_COLORS[idx]
 }

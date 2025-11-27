@@ -25,15 +25,18 @@ function get(noteId) {
 }
 
 function save(note) {
-    if (note.id){
+    if (note.id) {
+        note.colorClass = note.colorClass || utilService.getRandomKeepColor()  // ⬅️ השורה החסרה
         return storageService.put(NOTE_KEY, note)
-        } else {
-         note.createdAt = Date.now()
+
+    } else {
+        note.createdAt = Date.now()
         note.isPinned = false
-        note.style = note.style || { backgroundColor: '#ffffff' }
+        note.colorClass = note.colorClass || utilService.getRandomKeepColor()
         return storageService.post(NOTE_KEY, note)
     }
-}   
+}
+
 
 function remove(noteId) {
     return storageService.remove(NOTE_KEY, noteId)
@@ -44,15 +47,13 @@ function getEmptyNote(txt = '', type = 'NoteTxt') {
         type,
         isPinned: false,
         createdAt: Date.now(),
-        style: {
-            backgroundColor: '#ffffff',
-        },
+        colorClass: utilService.getRandomKeepColor(),
         info: {},
     }
     if (type === 'NoteTxt') {
         note.info.txt = txt
     }
-return note
+    return note
 }
 
 function _createDemoNotes() {
@@ -65,9 +66,7 @@ function _createDemoNotes() {
             createdAt: Date.now() - 1000 * 60 * 60 * 24,
             type: 'NoteTxt',
             isPinned: true,
-            style: {
-                backgroundColor: '#fff9c4',
-            },
+            colorClass: utilService.getRandomKeepColor(),
             info: {
                 txt: 'Fullstack Me Baby!',
             },
@@ -77,9 +76,7 @@ function _createDemoNotes() {
             createdAt: Date.now() - 1000 * 60 * 60 * 2,
             type: 'NoteTxt',
             isPinned: false,
-            style: {
-                backgroundColor: '#c8e6c9',
-            },
+            colorClass: utilService.getRandomKeepColor(),
             info: {
                 txt: 'Buy milk, cat food, coffee ☕',
             },
@@ -89,9 +86,7 @@ function _createDemoNotes() {
             createdAt: Date.now() - 1000 * 60 * 10,
             type: 'NoteImg',
             isPinned: false,
-            style: {
-                backgroundColor: '#bbdefb',
-            },
+            colorClass: utilService.getRandomKeepColor(),
             info: {
                 url: 'https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg',
                 title: 'Important cat',
@@ -102,9 +97,7 @@ function _createDemoNotes() {
             createdAt: Date.now() - 1000 * 60 * 5,
             type: 'NoteTodos',
             isPinned: false,
-            style: {
-                backgroundColor: '#ffcdd2',
-            },
+            colorClass: utilService.getRandomKeepColor(),
             info: {
                 title: 'Get my stuff together',
                 todos: [
