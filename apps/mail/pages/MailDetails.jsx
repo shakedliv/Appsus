@@ -26,7 +26,7 @@ export function MailDetails() {
             .get(params.mailId)
             .then(setMail)
             .catch(() => {
-                showErrorMsg("Couldn't get mail...")
+               //  showErrorMsg("Couldn't get mail...")
                 navigate(`/mail`)
             })
             .finally(() => {
@@ -35,13 +35,15 @@ export function MailDetails() {
    }
    
    if (isLoading || !mail) return <div className="loader">Loading...</div>
-    return (
+   return (<div>
+         <NavBar filterBy={onSetFilterBy}/>
         <article className='mail-details'>
           <h1>Subject: {mail.subject}</h1>
           <h3>From: {mail.from}</h3>
           <p>Wrote At:  <span>{utilService.getMonthName(mail.sentAt)}</span> <span>{utilService.getDayInMonth(mail.sentAt)}</span></p>
           <p>{mail.body}</p>
          <Link to={`/mail`}> <button>Go back</button></Link>
-        </article>
+      </article>
+   </div>
     )
 }
