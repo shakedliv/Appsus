@@ -16,14 +16,15 @@ export const mailsService = {
     getEmptyMail,
     getDefaultFilter,
     setIsRead,
+    toggleIsRead,
 }
 
 function query(filterBy = {}) {
     return storageService.query(MAIL_KEY).then((mails) => {
-        //   if (filterBy.subject) {
-        //       const regExp = new RegExp(filterBy.subject, 'i')
-        //       mails = mails.filter((mail) => regExp.test(mail.subject))
-        //   }
+        if (filterBy.subject) {
+            const regExp = new RegExp(filterBy.subject, 'i')
+            mails = mails.filter((mail) => regExp.test(mail.subject))
+        }
 
         //   filterBy.isRead
         //       ? (mails = mails.filter((mail) => mail.isRead === true))
@@ -56,7 +57,12 @@ function getDefaultFilter(filterBy = { subject: '', isRead: false }) {
 function setIsRead(mailID) {
     return get(mailID).then((mail) => {
         mail.isRead = true
-        console.log('mail:', mail)
+        return save(mail)
+    })
+}
+function toggleIsRead(mailID) {
+    return get(mailID).then((mail) => {
+        mail.isRead = !mail.isRead
         return save(mail)
     })
 }
@@ -88,7 +94,6 @@ function _createMails() {
 
 function getEmptyMail() {
     return {
-        id: utilService.makeId(),
         subject: '',
         body: '',
         createdAt: Date.now(),

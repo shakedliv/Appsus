@@ -37,9 +37,9 @@ export function MailDetails() {
    if (isLoading || !mail) return <div className="loader">Loading...</div>
     return (
         <article className='mail-details'>
-          <h1>{mail.subject}</h1>
-          <h3>{mail.from}</h3>
-          <p> <span>{utilService.getMonthName(mail.sentAt)}</span> <span>{utilService.getDayInMonth(mail.sentAt)}</span></p>
+          <h1>Subject: {mail.subject}</h1>
+          <h3>From: {mail.from}</h3>
+          <p>Wrote At:  <span>{utilService.getMonthName(mail.sentAt)}</span> <span>{utilService.getDayInMonth(mail.sentAt)}</span></p>
           <p>{mail.body}</p>
          <Link to={`/mail`}> <button>Go back</button></Link>
         </article>

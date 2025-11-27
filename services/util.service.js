@@ -18,7 +18,8 @@ export const utilService = {
     loadFromStorage,
     saveToStorage,
    getDayInMonth,
-    getRandomEmail,
+   getRandomEmail,
+    debounce,
     getRandomKeepColor
 }
 
@@ -106,6 +107,18 @@ function getRandomEmail() {
     const randomNumber = Math.floor(Math.random() * 10000) // 0–9999
 
     return `${randomName}${randomNumber}@gmail.com`
+}
+
+
+
+export function debounce(callback, wait) {
+    let timeoutId = null;
+    return (...args) => {
+        window.clearTimeout(timeoutId);
+        timeoutId = window.setTimeout(() => {
+            callback(...args);
+        }, wait);
+    };
 }
 
 function getRandomKeepColor() {
