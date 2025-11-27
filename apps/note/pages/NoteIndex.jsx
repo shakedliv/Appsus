@@ -131,4 +131,17 @@ export function NoteIndex() {
     )
 }
 
+function onToggleTodo(note, idx) {
+    const updated = { ...note }
+    updated.info = { ...note.info }
+    updated.info.todos = [...note.info.todos]
+
+    updated.info.todos[idx].isDone = !updated.info.todos[idx].isDone
+
+    noteService.save(updated).then(saved => {
+        setNotes(prev =>
+            sortNotes(prev.map(n => (n.id === saved.id ? saved : n)))
+        )
+    })
+}
 

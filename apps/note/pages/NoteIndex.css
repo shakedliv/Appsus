@@ -64,6 +64,16 @@
     color: #555;
 }
 
+.note-todos li {
+    cursor: pointer;
+    padding: 4px 0;
+}
+
+.note-todos li.done {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
 .note-yellow {
     background-color: #fef3b7;
 }

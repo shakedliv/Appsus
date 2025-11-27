@@ -1,7 +1,7 @@
 
 const { useState, useRef, useEffect } = React
 
-export function NotePreview({ note, onDelete, onDuplicate, onPin, onChangeColor, onEdit }) {
+export function NotePreview({ note, onDelete, onDuplicate, onPin, onChangeColor, onEdit, onToggleTodo }) {
 
     const [showColors, setShowColors] = useState(false)
     const pickerRef = useRef(null)
@@ -39,7 +39,11 @@ export function NotePreview({ note, onDelete, onDuplicate, onPin, onChangeColor,
                         <h4>{note.info.title}</h4>
                         <ul>
                             {note.info.todos.map((todo, idx) => (
-                                <li key={idx} className={todo.isDone ? 'done' : ''}>
+                                <li
+                                    key={idx}
+                                    className={todo.isDone ? 'done' : ''}
+                                    onClick={() => onToggleTodo(note, idx)}
+                                >
                                     {todo.txt}
                                 </li>
                             ))}
