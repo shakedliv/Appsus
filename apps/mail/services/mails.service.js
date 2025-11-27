@@ -54,12 +54,14 @@ function save(mail) {
 function getDefaultFilter(filterBy = { subject: '', isRead: false }) {
     return { subject: filterBy.subject, isRead: filterBy.isRead }
 }
+
 function setIsRead(mailID) {
     return get(mailID).then((mail) => {
         mail.isRead = true
         return save(mail)
     })
 }
+
 function toggleIsRead(mailID) {
     return get(mailID).then((mail) => {
         mail.isRead = !mail.isRead
