@@ -5,12 +5,19 @@ import { mailsService } from '../services/mails.service.js'
 export function MailCompose({ sendMail, toggleCompose }) {
     const [mail, setMail] = useState(mailsService.getEmptyMail())
 
-    function onAddMail(ev) {
+   function onAddMail(ev) {
+       console.log('mail:', mail)
         ev.preventDefault()
         sendMail(mail)
         toggleCompose()
     }
 
+   function isMailEmpty({ target }) {
+      console.log('target:', target)
+      return true
+    }
+
+   
     function handleChange({ target }) {
         const { type, name: field } = target
         let { value } = target
@@ -32,7 +39,7 @@ export function MailCompose({ sendMail, toggleCompose }) {
     const { createdAt } = mail
 
     return (
-        <section onClick={toggleCompose} className='compose-mail flex'>
+        <section onClick={isMailEmpty || toggleCompose} className='compose-mail flex'>
             <form
                 onClick={(ev) => ev.stopPropagation()}
                 onSubmit={onAddMail}
@@ -42,7 +49,7 @@ export function MailCompose({ sendMail, toggleCompose }) {
                     <h1>Compose</h1>
                     <button
                         className='btn-toggle-modal'
-                        onClick={toggleCompose}
+                        onClick={isMailEmpty || toggleCompose}
                     >
                         X
                     </button>

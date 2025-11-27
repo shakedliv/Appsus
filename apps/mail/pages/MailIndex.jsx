@@ -6,6 +6,7 @@ import {
     showErrorMsg,
 } from '../../../services/event-bus.service.js'
 import {MailFilter} from '../cmps/MailFilter.jsx'
+import {NavBar} from '../cmps/NavBar.jsx'
 
 const { useEffect, useState } = React
 
@@ -16,17 +17,21 @@ export function MailIndex() {
     const [isLoading, setIsLoading] = useState(true)
 
     const [filterBy, setFilterBy] = useState(mailsService.getDefaultFilter())
+    const [folderFilter, setFolderFilter] = useState('inbox')
+    
     useEffect(() => {
         loadMails()
     }, [])
     
     useEffect(() => {
-        mailsService.query(filterBy).then((loadedMails) => {
+        const combinedFilter = { ...filterBy, folder: folderFilter }
+        mailsService.query(combinedFilter).then((loadedMails) => {
             setMails(loadedMails)
         })
-    }, [filterBy])
+    }, [filterBy, folderFilter])
 
-    function onSendMail(composedMail) {
+   function onSendMail(composedMail) {
+       composedMail.sentAt = Date.now()
         mailsService
             .save(composedMail)
             .then(() => {
@@ -43,7 +48,8 @@ export function MailIndex() {
         // setUnReadCounter(mails.filter(mail => !mail.isRead).length)
     }
 
-    function onToggleComposeModal() {
+   function onToggleComposeModal() {
+       
         setIsShowComposeModal((prevIsComposeModal) => !prevIsComposeModal)
     }
 
@@ -63,6 +69,10 @@ export function MailIndex() {
 
     function onSetFilterBy(newFilter) {
         setFilterBy((filter) => ({ ...filter, ...newFilter }))
+    }
+
+    function onSetFolderFilter(filterObj) {
+        setFolderFilter(filterObj.folder)
     }
 
     function removeMail(mailId) {
@@ -85,6 +95,7 @@ export function MailIndex() {
     if (isLoading || !mails) return <div className='loader'>Loading...</div>
     return (
        <main>
+          <NavBar onFolderFilter={onSetFolderFilter}/>
                 <MailFilter filterBy={filterBy} onFilterBy={onSetFilterBy} />
             <button onClick={onToggleComposeModal} className='compose-mail-btn'>
                 <i className='fa-light fa-pencil'></i> Compose{' '}
