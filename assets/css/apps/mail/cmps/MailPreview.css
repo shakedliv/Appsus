@@ -1,22 +1,78 @@
-.mail-prev{
-   gap: 2em;
-   place-items: center;
-   padding-inline-start: 0.3em;
+
+.mail-prev {
+    padding: 8px 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+    position: relative;
+    margin-bottom: 2px;
+}
+.mail-operations{
+   margin-left: auto;
+}
+.remove-mail-btn,
+.toggle-read-btn {
+    display: none;
+}
+.mail-date {
+    
+    margin-left: auto; 
+    display: inline;
+    color: #5f6368;
+    font-size: 0.9em;
+}
+
+.mail-prev:hover {
+    box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+
+    
+    .mail-date {
+        display: none;
+    }
+    .remove-mail-btn,
+    .toggle-read-btn {
+       display: inline;
+      }
+}
+
+.is-read {
+    background-color: #f2f6fc;
+}
+
+.mail-prev h3,
+h4 {
+    color: #202124;
     font-size: 1em;
-    height: fit-content;
-    padding: 0.1em;
-    margin-bottom: 0.5em;
+    margin: 0;
+    padding: 0;
+    flex: 0 0 auto;
+    align-self: center;
 }
 
-.is-read{
-   background-color: #F2F6FC;
+.mail-subject {
+    font-weight: 600;
+    margin: 0 12px;
+    color: #202124;
+    flex: 0 1 auto;
+}
+.mail-body {
+    margin: 0 12px;
+    color: #5f6368;
+    flex: 1 1 auto; 
+    min-width: 0; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.mail-prev h3{
-   font-size: 1em;
-   margin: 0;
-   padding: 0;
+.mail-date {
+    
 }
-.mail-prev p{
-   margin: 0;
+
+.remove-mail-btn {
+    cursor: pointer;
+    margin-left: 8px;
+    align-self: flex-start;
 }
