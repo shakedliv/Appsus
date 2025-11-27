@@ -61,11 +61,35 @@ function _createDemoNotes() {
     if (notes && notes.length) return
 
     notes = [
+        // === PINNED NOTES (2) ===
+        {
+            id: utilService.makeId(),
+            createdAt: Date.now() - 1000 * 60 * 60 * 12,
+            type: 'NoteTxt',
+            isPinned: true,
+            colorClass: utilService.getRandomKeepColor(),
+            info: {
+                txt: '🚀 Welcome back Hodaya! This note is pinned.'
+            },
+        },
+        {
+            id: utilService.makeId(),
+            createdAt: Date.now() - 1000 * 60 * 30,
+            type: 'NoteImg',
+            isPinned: true,
+            colorClass: utilService.getRandomKeepColor(),
+            info: {
+                url: 'https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg',
+                title: 'Pinned Cat'
+            },
+        },
+
+        // === REGULAR NOTES ===
         {
             id: utilService.makeId(),
             createdAt: Date.now() - 1000 * 60 * 60 * 24,
             type: 'NoteTxt',
-            isPinned: true,
+            isPinned: false,
             colorClass: utilService.getRandomKeepColor(),
             info: {
                 txt: 'Fullstack Me Baby!',
@@ -110,3 +134,4 @@ function _createDemoNotes() {
 
     utilService.saveToStorage(NOTE_KEY, notes)
 }
+
