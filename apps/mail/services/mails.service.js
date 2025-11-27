@@ -21,14 +21,25 @@ export const mailsService = {
 
 function query(filterBy = {}) {
     return storageService.query(MAIL_KEY).then((mails) => {
+        // Folder filtering (inbox, sent, drafts)
+        if (filterBy.folder === 'inbox') {
+            mails = mails.filter(mail => mail.to === loggedinUser.email)
+        } else if (filterBy.folder === 'sent') {
+            mails = mails.filter(mail => mail.from === loggedinUser.email && mail.sentAt)
+        } else if (filterBy.folder === 'drafts') {
+            mails = mails.filter(mail => mail.createdAt && !mail.sentAt)
+        }
+
+        // Subject search filter
         if (filterBy.subject) {
             const regExp = new RegExp(filterBy.subject, 'i')
             mails = mails.filter((mail) => regExp.test(mail.subject))
         }
 
-        //   filterBy.isRead
-        //       ? (mails = mails.filter((mail) => mail.isRead === true))
-        //       : (mails = mails.filter((mail) => mail.isRead === false))
+        // Read/Unread filter
+        if (typeof filterBy.isRead === 'boolean') {
+            mails = mails.filter((mail) => mail.isRead === filterBy.isRead)
+        }
 
         return mails
     })
@@ -51,15 +62,17 @@ function save(mail) {
     }
 }
 
-function getDefaultFilter(filterBy = { subject: '', isRead: false }) {
-    return { subject: filterBy.subject, isRead: filterBy.isRead }
+function getDefaultFilter(filterBy = { subject: '', isRead: false, drafts: false, sent: false }) {
+    return { subject: filterBy.subject, isRead: filterBy.isRead ,drafts:filterBy.drafts ,sent:filterBy.sent }
 }
+
 function setIsRead(mailID) {
     return get(mailID).then((mail) => {
         mail.isRead = true
         return save(mail)
     })
 }
+
 function toggleIsRead(mailID) {
     return get(mailID).then((mail) => {
         mail.isRead = !mail.isRead
@@ -100,7 +113,7 @@ function getEmptyMail() {
         isRead: false,
         sentAt: null,
         removedAt: null,
-        from: loggedinUser.fullname,
+        from: loggedinUser.email,
         to: '',
     }
 }
