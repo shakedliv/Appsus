@@ -7,6 +7,7 @@ export function NoteList({ notes, onDelete, onDuplicate, onPin, onChangeColor, o
         <section className="note-list">
             <ul>
                 {notes.map(note => (
+
                     <li key={note.id}>
                         <NotePreview
                             note={note}
@@ -22,5 +23,4 @@ export function NoteList({ notes, onDelete, onDuplicate, onPin, onChangeColor, o
         </section>
     )
 }
-
 

@@ -85,6 +85,9 @@ export function NoteIndex() {
         })
     }
 
+    const pinnedNotes = notes.filter(n => n.isPinned)
+    const otherNotes = notes.filter(n => !n.isPinned)
+
     return (
         <section className="note-index">
 
@@ -94,7 +97,7 @@ export function NoteIndex() {
 
             <h3 className="note-section-title">PINNED</h3>
             <NoteList
-                notes={notes.filter(n => n.isPinned)}
+                notes={pinnedNotes}
                 onDelete={onDelete}
                 onDuplicate={onDuplicate}
                 onPin={onPin}
@@ -102,21 +105,19 @@ export function NoteIndex() {
                 onEdit={onEdit}
             />
 
-
-
-            {/* {notes.filter(n => !n.isPinned).length > 0 && (
-                <>
+            {otherNotes.length > 0 && (
+                <div className="other-notes-section">
                     <h3 className="note-section-title">OTHERS</h3>
                     <NoteList
-                        notes={notes.filter(n => !n.isPinned)}
+                        notes={otherNotes}
                         onDelete={onDelete}
                         onDuplicate={onDuplicate}
                         onPin={onPin}
                         onChangeColor={onChangeColor}
                         onEdit={onEdit}
                     />
-                </>
-            )} */}
+                </div>
+            )}
 
             {noteToEdit && (
                 <NoteEdit
