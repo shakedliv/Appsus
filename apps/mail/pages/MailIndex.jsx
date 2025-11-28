@@ -31,12 +31,21 @@ export function MailIndex() {
     }, [filterBy, folderFilter])
 
    function onSendMail(composedMail) {
-       composedMail.sentAt = Date.now()
         mailsService
             .save(composedMail)
             .then(() => {
                 console.log('success')
                 loadMails()
+            })
+            .catch((err) => {
+                console.log('err:', err)
+            })
+    }
+   function onSaveDraft(composedMail) {
+        mailsService
+            .save(composedMail)
+            .then(() => {
+                console.log('saved as draft')
             })
             .catch((err) => {
                 console.log('err:', err)
@@ -113,7 +122,8 @@ export function MailIndex() {
             {isShowComposeModal && (
                 <MailCompose
                     toggleCompose={onToggleComposeModal}
-                    sendMail={onSendMail}
+                sendMail={onSendMail}
+                saveDraft={onSaveDraft}
                 />
             )}
         </main>

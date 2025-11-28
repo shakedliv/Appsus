@@ -21,7 +21,6 @@ export const mailsService = {
 
 function query(filterBy = {}) {
     return storageService.query(MAIL_KEY).then((mails) => {
-        // Folder filtering (inbox, sent, drafts)
         if (filterBy.folder === 'inbox') {
             mails = mails.filter(mail => mail.to === loggedinUser.email)
         } else if (filterBy.folder === 'sent') {
@@ -30,14 +29,12 @@ function query(filterBy = {}) {
             mails = mails.filter(mail => mail.createdAt && !mail.sentAt)
         }
 
-        // Subject search filter
         if (filterBy.subject) {
             const regExp = new RegExp(filterBy.subject, 'i')
             mails = mails.filter((mail) => regExp.test(mail.subject))
         }
 
-        // Read/Unread filter
-        if (typeof filterBy.isRead === 'boolean') {
+        if (filterBy.isRead === true) {
             mails = mails.filter((mail) => mail.isRead === filterBy.isRead)
         }
 

@@ -2,19 +2,20 @@ const { useState, useEffect } = React
 
 import { mailsService } from '../services/mails.service.js'
 
-export function MailCompose({ sendMail, toggleCompose }) {
+export function MailCompose({ sendMail, toggleCompose , saveDraft}) {
     const [mail, setMail] = useState(mailsService.getEmptyMail())
 
    function onAddMail(ev) {
-       console.log('mail:', mail)
-        ev.preventDefault()
+      ev.preventDefault()
+       mail.sentAt = Date.now()
         sendMail(mail)
         toggleCompose()
     }
-
-   function isMailEmpty({ target }) {
-      console.log('target:', target)
-      return true
+function isMailEmpty() {
+      toggleCompose()
+      if (mail.subject || mail.body || mail.to) {
+         sendMail(mail)
+      }
     }
 
    
@@ -39,7 +40,7 @@ export function MailCompose({ sendMail, toggleCompose }) {
     const { createdAt } = mail
 
     return (
-        <section onClick={isMailEmpty || toggleCompose} className='compose-mail flex'>
+        <section onClick={isMailEmpty} className='compose-mail flex'>
             <form
                 onClick={(ev) => ev.stopPropagation()}
                 onSubmit={onAddMail}
@@ -49,7 +50,7 @@ export function MailCompose({ sendMail, toggleCompose }) {
                     <h1>Compose</h1>
                     <button
                         className='btn-toggle-modal'
-                        onClick={isMailEmpty || toggleCompose}
+                        onClick={isMailEmpty}
                     >
                         X
                     </button>

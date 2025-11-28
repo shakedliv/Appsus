@@ -36,7 +36,6 @@ export function MailDetails() {
    
    if (isLoading || !mail) return <div className="loader">Loading...</div>
    return (<div>
-         <NavBar filterBy={onSetFilterBy}/>
         <article className='mail-details'>
           <h1>Subject: {mail.subject}</h1>
           <h3>From: {mail.from}</h3>
