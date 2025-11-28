@@ -1,16 +1,23 @@
 .nav-bar {
     width: 260px;
-    transition: width 0.3s ease;
+    transition: width 0.1s ease;
     background-color: #f8fafd;
     color: #202124;
     white-space: nowrap;
     overflow: hidden;
     z-index: 10;
-    font-size: 26px;
+    
+    article{
+       font-size: 26px;
+    }
 }
 
 .nav-bar.close {
-    width: 40px;
+    width: 70px;
+    text-align: center;
+}
+.nav-bar.open {
+   text-align: start;
 }
 
 .nav-bar:hover{
@@ -30,4 +37,5 @@ cursor: pointer;
    border-radius: 50px;
    margin-bottom: 1em;
    margin-top: 10px;
+   text-align: center;
 }

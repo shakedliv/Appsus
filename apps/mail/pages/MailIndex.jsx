@@ -117,7 +117,7 @@ export function MailIndex() {
                     {' '}
                     <article className='btn-toggle-menu'>☰</article>
              </div>
-             <div>App LOGO</div>
+             <div><img className='app-logo' src='../imgs/APPSUS-logo.jpg' /></div>
              <MailFilter filterBy={filterBy} onFilterBy={onSetFilterBy} />
               <nav>
             <NavLink to="/">Home</NavLink>

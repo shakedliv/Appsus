@@ -47,13 +47,14 @@ function isMailEmpty() {
                 className='compose-form '
             >
                 <div className='compose-modal'>
-                    <h1>New Message</h1>
-                    <button
+                <div className='compose-topic'><h4>New Message</h4>
+                 <span
                         className='btn-toggle-modal'
                         onClick={isMailEmpty}
                     >
                         X
-                    </button>
+                    </span></div>
+                   
                      
                 <input
                    className='compose-recipient-input'
