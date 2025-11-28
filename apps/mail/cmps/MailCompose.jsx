@@ -46,7 +46,6 @@ function isMailEmpty() {
                 onSubmit={onAddMail}
                 className='compose-form '
             >
-                <div className='compose-modal'>
                 <div className='compose-topic'><h4>New Message</h4>
                  <span
                         className='btn-toggle-modal'
@@ -79,7 +78,8 @@ function isMailEmpty() {
                    placeholder='Subject'
                 />
                 
-                    <input
+             <input
+                className='compose-body-input'
                         type='text'
                         id='body'
                         name='body'
@@ -87,7 +87,6 @@ function isMailEmpty() {
                         onChange={handleChange}
                     />
                     <button className='send-compose-btn'>Send</button>
-                </div>
             </form>
         </section>
     )

@@ -22,14 +22,17 @@ export const mailsService = {
 function query(filterBy = {}) {
     return storageService.query(MAIL_KEY).then((mails) => {
         if (filterBy.folder === 'inbox') {
-            mails = mails.filter(mail => mail.to === loggedinUser.email)
+            mails = mails.filter(mail => mail.to === loggedinUser.email && !mail.removedAt)
         } else if (filterBy.folder === 'sent') {
-            mails = mails.filter(mail => mail.from === loggedinUser.email && mail.sentAt)
+            mails = mails.filter(mail => mail.from === loggedinUser.email && mail.sentAt && !mail.removedAt)
         } else if (filterBy.folder === 'drafts') {
-            mails = mails.filter(mail => mail.createdAt && !mail.sentAt)
+            mails = mails.filter(mail => mail.createdAt && !mail.sentAt && !mail.removedAt)
        }
         else if (filterBy.folder === 'unread') {
-           mails = mails.filter((mail) => mail.isRead === false)
+           mails = mails.filter((mail) => mail.isRead === false && !mail.removedAt)
+       }
+        else if (filterBy.folder === 'trash') {
+           mails = mails.filter((mail) => mail.removedAt)
        }
 
         if (filterBy.subject) {
@@ -37,9 +40,6 @@ function query(filterBy = {}) {
             mails = mails.filter((mail) => regExp.test(mail.subject))
         }
 
-      //   if (filterBy.isRead === true) {
-      //       mails = mails.filter((mail) => mail.isRead === filterBy.isRead)
-      //   }
 
         return mails
     })
@@ -47,7 +47,6 @@ function query(filterBy = {}) {
 
 function get(mailId) {
     return storageService.get(MAIL_KEY, mailId)
-    //   .then((mail) => _setNextPrevMailId(mail))
 }
 
 function remove(mailId) {

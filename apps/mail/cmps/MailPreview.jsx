@@ -14,8 +14,13 @@ export function MailPreview({ mail, removeMail, toggleIsRead }) {
    
     function onRemoveMail(ev) {
         ev.stopPropagation()
-        ev.preventDefault()
-        removeMail(mail.id)
+       ev.preventDefault()
+       if(mail.removeAt)
+          removeMail(mail.id)
+      //  else {
+      //     mail.removeAt = Date.now()
+      //     console.log('mail:', mail)
+      //  }
    }
    
     function onToggleIsRead(ev) {

@@ -1,5 +1,6 @@
 .nav-bar {
     width: 260px;
+    height: 100vh;
     transition: width 0.1s ease;
     background-color: #f8fafd;
     color: #202124;
@@ -20,12 +21,9 @@
    text-align: start;
 }
 
-.nav-bar:hover{
-cursor: pointer;
-
-}
 
 .nav-bar article:hover{
+   cursor: pointer;
    background-color: #d4d5d8 ;
 
 }

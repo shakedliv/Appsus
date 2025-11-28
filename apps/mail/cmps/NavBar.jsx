@@ -11,5 +11,6 @@ export function NavBar({ onFolderFilter ,toggleCompose, isMenuOpen, unReadCounte
         <article onClick={() => onFolderFilter({ folder: 'sent' })}>📤 {isMenuOpen ? 'Sent' : ''}</article>
         <article onClick={() => onFolderFilter({ folder: 'drafts' })}>📝 {isMenuOpen ? 'Drafts' : ''}</article>
         <article onClick={() => onFolderFilter({ folder: 'unread' })}>✉️ {isMenuOpen ? 'Unread' : ''}</article>
+        <article onClick={() => onFolderFilter({ folder: 'trash' })}>🗑️ {isMenuOpen ? 'Trash' : ''}</article>
     </aside>
 }

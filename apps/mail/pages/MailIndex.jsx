@@ -6,11 +6,10 @@ import {
    showSuccessMsg,
    showErrorMsg,
 } from '../../../services/event-bus.service.js'
-import { MailFilter } from '../cmps/MailFilter.jsx'
+// 
 import { NavBar } from '../cmps/NavBar.jsx'
-import { Fragment } from 'react/jsx-runtime'
+import { MailHeader } from '../cmps/MailHeader.jsx'
 
-const { Link, NavLink } = ReactRouterDOM
 const { useEffect, useState } = React
 
 export function MailIndex() {
@@ -20,7 +19,7 @@ export function MailIndex() {
     const [isLoading, setIsLoading] = useState(true)
 
     const [filterBy, setFilterBy] = useState(mailsService.getDefaultFilter())
-    const [folderFilter, setFolderFilter] = useState('inbox')
+   const [folderFilter, setFolderFilter] = useState('inbox')
 
     useEffect(() => {
         loadMails()
@@ -86,7 +85,7 @@ export function MailIndex() {
         setFolderFilter(filterObj.folder)
     }
 
-    function removeMail(mailId) {
+   function removeMail(mailId) {
         mailsService
             .remove(mailId)
             .then(() =>
@@ -95,11 +94,11 @@ export function MailIndex() {
                 )
             )
             .catch(() => {
-                showErrorMsg(`couldn't remove mail`)
-                //   navigate('/mail')
+               //  showErrorMsg(`couldn't remove mail`)
+                  // navigate('/mail')
             })
             .finally(() => {
-                showSuccessMsg('Mail has been successfully removed!')
+               //  showSuccessMsg('Mail has been successfully removed!')
             })
     }
 
@@ -111,21 +110,8 @@ export function MailIndex() {
 
     if (isLoading || !mails) return <div className='loader'>Loading...</div>
     return (
-        <div>
-            <header className='mail-header'>
-                <div className='btn-toggle-menu-container' onClick={toggleMenu}>
-                    {' '}
-                    <article className='btn-toggle-menu'>☰</article>
-             </div>
-             <div><img className='app-logo' src='../imgs/APPSUS-logo.jpg' /></div>
-             <MailFilter filterBy={filterBy} onFilterBy={onSetFilterBy} />
-              <nav>
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/about">About</NavLink>
-            <NavLink to="/mail">Mail</NavLink>
-            <NavLink to="/note">Note</NavLink>
-        </nav>
-            </header>
+       <div>
+          <MailHeader toggleMenu={toggleMenu} onSetFilterBy={onSetFilterBy} filterBy={filterBy } />
             <main className='app-container'>
                 <section>
                     <NavBar
