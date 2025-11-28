@@ -27,16 +27,19 @@ function query(filterBy = {}) {
             mails = mails.filter(mail => mail.from === loggedinUser.email && mail.sentAt)
         } else if (filterBy.folder === 'drafts') {
             mails = mails.filter(mail => mail.createdAt && !mail.sentAt)
-        }
+       }
+        else if (filterBy.folder === 'unread') {
+           mails = mails.filter((mail) => mail.isRead === false)
+       }
 
         if (filterBy.subject) {
             const regExp = new RegExp(filterBy.subject, 'i')
             mails = mails.filter((mail) => regExp.test(mail.subject))
         }
 
-        if (filterBy.isRead === true) {
-            mails = mails.filter((mail) => mail.isRead === filterBy.isRead)
-        }
+      //   if (filterBy.isRead === true) {
+      //       mails = mails.filter((mail) => mail.isRead === filterBy.isRead)
+      //   }
 
         return mails
     })

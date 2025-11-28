@@ -47,37 +47,37 @@ function isMailEmpty() {
                 className='compose-form '
             >
                 <div className='compose-modal'>
-                    <h1>Compose</h1>
+                    <h1>New Message</h1>
                     <button
                         className='btn-toggle-modal'
                         onClick={isMailEmpty}
                     >
                         X
                     </button>
-                    <label className='bold-txt' htmlFor='send-to'>
-                        To:
-                    </label>
-                    <input
+                     
+                <input
+                   className='compose-recipient-input'
+                   
                         type='text'
                         id='send-to'
                         name='to'
                         value={mail.to}
                         onChange={handleChange}
-                        autoFocus
+                   autoFocus
+                   placeholder='Recipient'
                 />
                 
-                    <label className='bold-txt' htmlFor='subject'>
-                        Subject
-                    </label>
-                    <input
+                   
+                <input
+                   className='compose-subject-input'
                         type='text'
                         id='subject'
                         name='subject'
                         value={mail.subject}
-                        onChange={handleChange}
+                   onChange={handleChange}
+                   placeholder='Subject'
                 />
                 
-                    <label className='bold-txt' htmlFor='body'></label>
                     <input
                         type='text'
                         id='body'
@@ -85,7 +85,7 @@ function isMailEmpty() {
                         value={mail.body}
                         onChange={handleChange}
                     />
-                    <button>Send</button>
+                    <button className='send-compose-btn'>Send</button>
                 </div>
             </form>
         </section>

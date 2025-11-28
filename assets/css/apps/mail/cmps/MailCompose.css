@@ -10,6 +10,10 @@
     border:1px solid darkgray;
     overflow: auto;
 }
+.compose-modal{
+display: flex;
+flex-direction: column;
+}
 
 .compose-mail .btn-toggle-modal {
     position: absolute;
@@ -20,4 +24,13 @@
 }
 .compose-mail .body{
    height: 80%;
+}
+.send-compose-btn{
+   border-radius: 30px;
+   padding: 5px 20px;
+   font-size: 25px;
+   font-weight: 500;
+   background-color:#297BE6 ;
+   color:#FFFFFF;
+   border:none;
 }

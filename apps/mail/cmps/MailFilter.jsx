@@ -23,7 +23,7 @@ export function MailFilter({ filterBy, onFilterBy }) {
     }
 
     return <section className='mails-filter'>
-        <h3>Filter</h3>
+      
         <input onChange={handleChange} value={filterByToEdit.subject} type="text" name='subject' placeholder='Search by subject' />
         <button onClick={reset}>Reset</button>
     </section>
