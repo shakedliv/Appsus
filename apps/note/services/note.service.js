@@ -1,6 +1,6 @@
 // note service
 
-import { utilService } from '../../../services/util.service.js'
+import { utilService } from '../../services/util.service.js'
 import { storageService } from '../../../services/async-storage.service.js'
 
 
@@ -26,27 +26,31 @@ function get(noteId) {
 
 function save(note) {
 
-    if (note.info && note.info.todos) {
-        note.info.todos = note.info.todos.map(todo => ({
+    let noteToSave = { ...note }
+
+    if (note.info && Array.isArray(note.info.todos)) {
+        const todos = note.info.todos.map(todo => ({
             id: todo.id || utilService.makeId(),
             txt: todo.txt,
             isDone: !!todo.isDone
         }))
+
+        noteToSave = {
+            ...note,
+            info: { ...note.info, todos }
+        }
     }
 
-    if (note.id) {
-        note.colorClass = note.colorClass || utilService.getRandomKeepColor()
-        return storageService.put(NOTE_KEY, note)
-
+    if (noteToSave.id) {
+        noteToSave.colorClass = noteToSave.colorClass || utilService.getRandomKeepColor()
+        return storageService.put(NOTE_KEY, noteToSave)
     } else {
-        note.createdAt = Date.now()
-        note.isPinned = false
-        note.colorClass = note.colorClass || utilService.getRandomKeepColor()
-        return storageService.post(NOTE_KEY, note)
+        noteToSave.createdAt = Date.now()
+        noteToSave.isPinned = false
+        noteToSave.colorClass = noteToSave.colorClass || utilService.getRandomKeepColor()
+        return storageService.post(NOTE_KEY, noteToSave)
     }
 }
-
-
 
 function remove(noteId) {
     return storageService.remove(NOTE_KEY, noteId)

@@ -1,8 +1,10 @@
 const { useState, useRef, useEffect } = React
 
-export function NotePreview({ note, onDelete, onDuplicate, onPin, onChangeColor, onEdit, onToggleTodo }) {
+export function NotePreview({ note, onDelete, onDuplicate, onPin, onChangeColor, onEdit, onAddTodo, onDeleteTodo, onToggleTodo }) {
 
     const [showColors, setShowColors] = useState(false)
+    const [newTodoText, setNewTodoText] = useState('')
+    const [isAdding, setIsAdding] = useState(false)
     const pickerRef = useRef(null)
 
     useEffect(() => {
@@ -43,20 +45,73 @@ export function NotePreview({ note, onDelete, onDuplicate, onPin, onChangeColor,
                 return (
                     <div className="note-content note-todos">
                         <h4>{note.info.title}</h4>
+
                         <ul>
                             {sortedTodos.map(todo => (
-
                                 <li
                                     key={todo.id}
-                                    className={todo.isDone ? "done" : ""}
-                                    onClick={() => onToggleTodo(note.id, todo.id)}
+                                    className={`todo-line ${todo.isDone ? "done" : ""}`}
                                 >
-                                    <div className={`todo-checkbox ${todo.isDone ? "checked" : ""}`}></div>
-                                    <span>{todo.txt}</span>
-                                </li>
 
+
+                                    <div
+                                        className={`todo-checkbox ${todo.isDone ? "checked" : ""}`}
+                                        onClick={() => onToggleTodo(note.id, todo.id)}
+                                    ></div>
+
+                                    <span
+                                        className="todo-text"
+                                        onClick={() => onToggleTodo(note.id, todo.id)}
+                                    >
+                                        {todo.txt}
+                                    </span>
+
+                                    <button
+                                        className="todo-delete-btn"
+                                        onClick={(ev) => {
+                                            ev.stopPropagation()
+                                            onDeleteTodo(note.id, todo.id)
+                                        }}
+                                    >
+                                        ✖
+                                    </button>
+                                </li>
                             ))}
+
+                            <li className="todo-add">
+                                {isAdding ? (
+                                    <div className="todo-input-wrapper">
+                                        <input
+                                            autoFocus
+                                            type="text"
+                                            value={newTodoText}
+                                            onChange={(e) => setNewTodoText(e.target.value)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter' && newTodoText.trim()) {
+                                                    onAddTodo(note.id, newTodoText)
+                                                    setNewTodoText('')
+                                                    setIsAdding(false)
+                                                }
+                                            }}
+                                            placeholder="New item..."
+                                        />
+                                        <button
+                                            onClick={() => {
+                                                if (!newTodoText.trim()) return
+                                                onAddTodo(note.id, newTodoText)
+                                                setNewTodoText('')
+                                                setIsAdding(false)
+                                            }}
+                                        >
+                                            Add
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <button onClick={() => setIsAdding(true)}>➕ Add item</button>
+                                )}
+                            </li>
                         </ul>
+
                     </div>
                 )
 

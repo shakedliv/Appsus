@@ -4,6 +4,8 @@ import { noteService } from '../services/note.service.js'
 import { NoteList } from '../cmps/NoteList.jsx'
 import { NoteAdd } from '../cmps/NoteAdd.jsx'
 import { NoteEdit } from '../cmps/NoteEdit.jsx'
+import { utilService } from '../../../services/util.service.js'
+
 
 export function NoteIndex() {
 
@@ -85,6 +87,49 @@ export function NoteIndex() {
         })
     }
 
+    function onAddTodo(noteId, txt) {
+    setNotes(prevNotes =>
+        prevNotes.map(note => {
+            if (note.id !== noteId) return note
+
+            const newTodo = {
+                id: utilService.makeId(),
+                txt,
+                isDone: false
+            }
+
+            const updatedNote = {
+                ...note,
+                info: {
+                    ...note.info,
+                    todos: [...note.info.todos, newTodo]
+                }
+            }
+
+            noteService.save(updatedNote)
+            return updatedNote
+        })
+    )
+}
+
+    function onDeleteTodo(noteId, todoId) {
+        setNotes(prevNotes =>
+            prevNotes.map(note => {
+                if (note.id !== noteId) return note
+
+                const updatedTodos = note.info.todos.filter(todo => todo.id !== todoId)
+
+                const updatedNote = {
+                    ...note,
+                    info: { ...note.info, todos: updatedTodos }
+                }
+
+                noteService.save(updatedNote)
+                return updatedNote
+            })
+        )
+    }
+
     function onToggleTodo(noteId, todoId) {
     setNotes(prevNotes =>
         prevNotes.map(note => {
@@ -107,6 +152,7 @@ export function NoteIndex() {
     )
 }
 
+
     const pinnedNotes = notes.filter(n => n.isPinned)
     const otherNotes = notes.filter(n => !n.isPinned)
 
@@ -125,6 +171,8 @@ export function NoteIndex() {
                 onPin={onPin}
                 onChangeColor={onChangeColor}
                 onEdit={onEdit}
+                onAddTodo={onAddTodo}
+                onDeleteTodo={onDeleteTodo}
                 onToggleTodo={onToggleTodo}
 
             />
@@ -139,6 +187,8 @@ export function NoteIndex() {
                         onPin={onPin}
                         onChangeColor={onChangeColor}
                         onEdit={onEdit}
+                        onAddTodo={onAddTodo}
+                        onDeleteTodo={onDeleteTodo}
                         onToggleTodo={onToggleTodo}
 
                     />
@@ -156,6 +206,8 @@ export function NoteIndex() {
         </section>
     )
 }
+
+
 
 
 

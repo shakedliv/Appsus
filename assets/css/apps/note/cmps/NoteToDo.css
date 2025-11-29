@@ -37,3 +37,72 @@
     color: white;
     font-size: 12px;
 }
+
+.note-todos ul {
+    padding: 0;
+    margin: 0;
+}
+
+.note-todos li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    cursor: pointer;
+}
+
+.todo-checkbox {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #555;
+    border-radius: 3px;
+}
+
+.todo-checkbox.checked {
+    background-color: #555;
+}
+
+.todo-add button {
+    background: none;
+    border: none;
+    color: #444;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.todo-delete-btn {
+    background: none;
+    border: none;
+    color: #b44;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: auto;
+    padding: 2px 4px;
+}
+
+.todo-delete-btn:hover {
+    color: red;
+}
+
+.todo-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
+}
+
+.todo-input-wrapper input {
+    flex: 1;
+    padding: 6px 8px;
+    font-size: 0.9rem;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+}
+
+.todo-input-wrapper button {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    border: none;
+    background-color: #4caf50;
+    color: white;
+    border-radius:
+}
