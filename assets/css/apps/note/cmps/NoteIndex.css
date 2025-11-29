@@ -12,17 +12,31 @@
     /* display: block; */
 }
 
-.note-list ul {
+/* .note-list ul {
     display: grid;
     gap: 20px;
     grid-template-columns: 1fr;
     list-style: none;
     margin: 0;
     padding: 0;
+} */
+
+.note-list ul {
+    column-count: 1;
+    column-gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
+
+/* .note-list li {
+    list-style: none;
+} */
 
 .note-list li {
     list-style: none;
+    break-inside: avoid;
+    margin-bottom: 20px;
 }
 
 .note-preview {
