@@ -1,13 +1,14 @@
 import { mailsService } from '../services/mails.service.js'
 import { MailList } from '../cmps/MailList.jsx'
 import { MailCompose } from '../cmps/MailCompose.jsx'
+
 import {
     showSuccessMsg,
     showErrorMsg,
 } from '../../../services/event-bus.service.js'
-import { MailFilter } from '../cmps/MailFilter.jsx'
+//
 import { NavBar } from '../cmps/NavBar.jsx'
-
+import { MailHeader } from '../cmps/MailHeader.jsx'
 
 const { useEffect, useState } = React
 
@@ -20,30 +21,9 @@ export function MailIndex() {
     const [filterBy, setFilterBy] = useState(mailsService.getDefaultFilter())
     const [folderFilter, setFolderFilter] = useState('inbox')
 
-    function getMailDefaultsFromURL() {
-    const hash = window.location.hash || ''
-    const queryString = hash.split('?')[1] || ''
-    const params = new URLSearchParams(queryString)
-
-    return {
-        subject: params.get('subject') || '',
-        body: params.get('body') || ''
-    }
-}
-
-
-
     useEffect(() => {
         loadMails()
     }, [])
-
-    useEffect(() => {
-    const hash = window.location.hash
-    if (hash.includes('subject=') || hash.includes('body=')) {
-        setIsShowComposeModal(true)
-    }
-}, [])
-
 
     useEffect(() => {
         const combinedFilter = { ...filterBy, folder: folderFilter }
@@ -53,12 +33,22 @@ export function MailIndex() {
     }, [filterBy, folderFilter])
 
     function onSendMail(composedMail) {
-        composedMail.sentAt = Date.now()
         mailsService
             .save(composedMail)
             .then(() => {
                 console.log('success')
                 loadMails()
+            })
+            .catch((err) => {
+                console.log('err:', err)
+            })
+   }
+
+    function onSaveDraft(composedMail) {
+        mailsService
+            .save(composedMail)
+            .then(() => {
+                console.log('saved as draft')
             })
             .catch((err) => {
                 console.log('err:', err)
@@ -93,25 +83,53 @@ export function MailIndex() {
         setFilterBy((filter) => ({ ...filter, ...newFilter }))
     }
 
-    function onSetFolderFilter(filterObj) {
+   function onSetFolderFilter(filterObj) {
+       console.log('filterObj:', filterObj)
         setFolderFilter(filterObj.folder)
     }
-
-    function removeMail(mailId) {
-        mailsService
-            .remove(mailId)
-            .then(() =>
-                setMails((prevMails) =>
-                    prevMails.filter((mail) => mailId !== mail.id)
+   function moveToTrash(mailId) {
+      const newMails = [];
+      mails.forEach((mail) => {
+         if (mailId === mail.id) {
+            const newMail = { ...mail, removedAt: Date.now() };
+            mailsService.save(newMail)
+         } else {
+            newMails.push(mail)
+         }
+      })
+        setMails(newMails)
+       console.log('mails:', mails)
+    }
+    function findMailById(mailId) {
+        return mails.find((mail) => {
+            return mail.id === mailId
+        })
+    }
+   function removeMail(mailId) {
+       console.log('mailId:', mailId)
+        if (!findMailById(mailId).removedAt) moveToTrash(mailId)
+        else {
+            mailsService
+                .remove(mailId)
+                .then(() =>
+                    setMails((prevMails) =>
+                        prevMails.filter((mail) => mailId !== mail.id)
+                    )
                 )
-            )
-            .catch(() => {
-                showErrorMsg(`couldn't remove mail`)
-                //   navigate('/mail')
-            })
-            .finally(() => {
-                showSuccessMsg('Mail has been successfully removed!')
-            })
+                .catch(() => {
+                    //  showErrorMsg(`couldn't remove mail`)
+                    // navigate('/mail')
+                })
+                .finally(() => {
+                    //  showSuccessMsg('Mail has been successfully removed!')
+                })
+        }
+    }
+
+    const [isMenuOpen, setISMenuOpen] = useState(false)
+
+    function toggleMenu() {
+        setISMenuOpen(!isMenuOpen)
     }
 
     if (isLoading || !mails) return <div className='loader'>Loading...</div>

@@ -2,7 +2,7 @@ const { useState, useEffect } = React
 
 import { mailsService } from '../services/mails.service.js'
 
-export function MailCompose({ sendMail, toggleCompose, defaults }) {
+export function MailCompose({ sendMail, toggleCompose , saveDraft,}) {
     const [mail, setMail] = useState(mailsService.getEmptyMail())
 
 useEffect(() => {
@@ -16,15 +16,16 @@ useEffect(() => {
     }, [defaults])
 
    function onAddMail(ev) {
-       console.log('mail:', mail)
-        ev.preventDefault()
+      ev.preventDefault()
+       mail.sentAt = Date.now()
         sendMail(mail)
         toggleCompose()
     }
-
-   function isMailEmpty({ target }) {
-      console.log('target:', target)
-      return true
+function isMailEmpty() {
+      toggleCompose()
+      if (mail.subject || mail.body || mail.to) {
+         sendMail(mail)
+      }
     }
 
    
@@ -49,53 +50,56 @@ useEffect(() => {
     const { createdAt } = mail
 
     return (
-        <section onClick={isMailEmpty || toggleCompose} className='compose-mail flex'>
+        <section onClick={isMailEmpty} className='compose-mail flex'>
             <form
                 onClick={(ev) => ev.stopPropagation()}
                 onSubmit={onAddMail}
                 className='compose-form '
             >
-                <div className='compose-modal'>
-                    <h1>Compose</h1>
-                    <button
+                <div className='compose-topic'><h4>New Message</h4>
+                 <span
                         className='btn-toggle-modal'
-                        onClick={isMailEmpty || toggleCompose}
+                        onClick={isMailEmpty}
                     >
                         X
-                    </button>
-                    <label className='bold-txt' htmlFor='send-to'>
-                        To:
-                    </label>
-                    <input
+                    </span></div>
+                   
+                     
+                <input
+                   className='compose-recipient-input'
+                   
                         type='text'
                         id='send-to'
                         name='to'
                         value={mail.to}
                         onChange={handleChange}
+                   autoFocus
+                   placeholder='Recipient'
                         autoFocus 
                 />
                 
-                    <label className='bold-txt' htmlFor='subject'>
-                        Subject
-                    </label>
-                    <input
+                   
+                <input
+                   className='compose-subject-input'
                         type='text'
                         id='subject'
                         name='subject'
                         value={mail.subject}
+                   onChange={handleChange}
+                   placeholder='Subject'
+                />
                         onChange={handleChange}
               />
                 
-                    <label className='bold-txt' htmlFor='body'></label>
-                    <input
+             <input
+                className='compose-body-input'
                         type='text'
                         id='body'
                         name='body'
                         value={mail.body}
                         onChange={handleChange}
                     />
-                    <button>Send</button>
-                </div>
+                    <button className='send-compose-btn'>Send</button>
             </form>
         </section>
     )

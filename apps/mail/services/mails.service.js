@@ -20,34 +20,33 @@ export const mailsService = {
 }
 
 function query(filterBy = {}) {
-    return storageService.query(MAIL_KEY).then((mails) => {
-        // Folder filtering (inbox, sent, drafts)
+   return storageService.query(MAIL_KEY).then((mails) => {
+         let data = []
         if (filterBy.folder === 'inbox') {
-            mails = mails.filter(mail => mail.to === loggedinUser.email)
+            data = mails.filter(mail => mail.to === loggedinUser.email && !mail.removedAt)
         } else if (filterBy.folder === 'sent') {
-            mails = mails.filter(mail => mail.from === loggedinUser.email && mail.sentAt)
+            data = mails.filter(mail => mail.from === loggedinUser.email && mail.sentAt && !mail.removedAt)
         } else if (filterBy.folder === 'drafts') {
-            mails = mails.filter(mail => mail.createdAt && !mail.sentAt)
-        }
+            data = mails.filter(mail => mail.createdAt && !mail.sentAt && !mail.removedAt)
+       }
+        else if (filterBy.folder === 'unread') {
+           data = mails.filter((mail) => mail.isRead === false && !mail.removedAt)
+       }
+        else if (filterBy.folder === 'trash') {
+           data = mails.filter((mail) => mail.removedAt)
+       }
 
-        // Subject search filter
         if (filterBy.subject) {
             const regExp = new RegExp(filterBy.subject, 'i')
-            mails = mails.filter((mail) => regExp.test(mail.subject))
+            data = data.filter((mail) => regExp.test(mail.subject))
         }
 
-        // Read/Unread filter
-        if (typeof filterBy.isRead === 'boolean') {
-            mails = mails.filter((mail) => mail.isRead === filterBy.isRead)
-        }
-
-        return mails
+        return data
     })
 }
 
 function get(mailId) {
     return storageService.get(MAIL_KEY, mailId)
-    //   .then((mail) => _setNextPrevMailId(mail))
 }
 
 function remove(mailId) {

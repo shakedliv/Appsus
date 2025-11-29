@@ -1,0 +1,39 @@
+.nav-bar {
+    width: 260px;
+    height: 100vh;
+    transition: width 0.1s ease;
+    background-color: #f8fafd;
+    color: #202124;
+    white-space: nowrap;
+    overflow: hidden;
+    z-index: 10;
+    
+    article{
+       font-size: 26px;
+    }
+}
+
+.nav-bar.close {
+    width: 70px;
+    text-align: center;
+}
+.nav-bar.open {
+   text-align: start;
+}
+
+
+.nav-bar article:hover{
+   cursor: pointer;
+   background-color: #d4d5d8 ;
+
+}
+
+.compose-mail-btn{
+   padding-block: 10px;
+   background-color: #C2E7ff;
+   color:#001D35;
+   border-radius: 50px;
+   margin-bottom: 1em;
+   margin-top: 10px;
+   text-align: center;
+}

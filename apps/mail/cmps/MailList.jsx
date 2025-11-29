@@ -4,9 +4,10 @@ import { MailPreview } from './MailPreview.jsx'
 const { Link } = ReactRouterDOM
 
 export function MailList({ mails, removeMail, toggleIsRead }) {
-    return (
+   console.log('mails:', mails)
+   return (
         <section className='mails-list'>
-            <ul>
+          <ul>
                 {mails.map(mail =>
                     <li key={mail.id}>
                       <MailPreview mail={mail} removeMail={removeMail} toggleIsRead={toggleIsRead} />

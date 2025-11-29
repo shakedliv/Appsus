@@ -1,0 +1,30 @@
+.mail-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    height: 70px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items:center ;
+
+    background-color: #f8fafd;
+    color: #202124;
+}
+
+.mail-header img{
+   width: 70px;
+}
+
+.mail-header input{
+   border-radius: 25px;
+   padding: 15px;
+   background-color: #E9EEF6;
+   border: none;
+   width: 60vw;
+   max-width: 720px;
+   min-width: 280px;
+
+}
