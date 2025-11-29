@@ -152,6 +152,31 @@ export function NoteIndex() {
     )
 }
 
+function onSendMail(note) {
+
+    let subject = note.info.title || 'My Note'
+    let body = ''
+
+    if (note.type === 'NoteTxt') {
+        body = note.info.txt
+    }
+
+    if (note.type === 'NoteImg') {
+        body = `Check out this image:\n${note.info.url}`
+    }
+
+    if (note.type === 'NoteTodos') {
+        body = note.info.todos
+            .map(t => `${t.isDone ? '✔️' : '⬜'} ${t.txt}`)
+            .join('\n')
+    }
+
+    const encodedSubject = encodeURIComponent(subject)
+    const encodedBody = encodeURIComponent(body)
+
+    window.location.hash = `#/mail/compose?subject=${encodedSubject}&body=${encodedBody}`
+}
+
 
     const pinnedNotes = notes.filter(n => n.isPinned)
     const otherNotes = notes.filter(n => !n.isPinned)
@@ -174,6 +199,7 @@ export function NoteIndex() {
                 onAddTodo={onAddTodo}
                 onDeleteTodo={onDeleteTodo}
                 onToggleTodo={onToggleTodo}
+                onSendMail={onSendMail}
 
             />
 
@@ -190,6 +216,7 @@ export function NoteIndex() {
                         onAddTodo={onAddTodo}
                         onDeleteTodo={onDeleteTodo}
                         onToggleTodo={onToggleTodo}
+                        onSendMail={onSendMail}
 
                     />
                 </div>
@@ -206,6 +233,8 @@ export function NoteIndex() {
         </section>
     )
 }
+
+
 
 
 

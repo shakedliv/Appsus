@@ -5,8 +5,9 @@ import {
     showSuccessMsg,
     showErrorMsg,
 } from '../../../services/event-bus.service.js'
-import {MailFilter} from '../cmps/MailFilter.jsx'
-import {NavBar} from '../cmps/NavBar.jsx'
+import { MailFilter } from '../cmps/MailFilter.jsx'
+import { NavBar } from '../cmps/NavBar.jsx'
+
 
 const { useEffect, useState } = React
 
@@ -18,11 +19,32 @@ export function MailIndex() {
 
     const [filterBy, setFilterBy] = useState(mailsService.getDefaultFilter())
     const [folderFilter, setFolderFilter] = useState('inbox')
-    
+
+    function getMailDefaultsFromURL() {
+    const hash = window.location.hash || ''
+    const queryString = hash.split('?')[1] || ''
+    const params = new URLSearchParams(queryString)
+
+    return {
+        subject: params.get('subject') || '',
+        body: params.get('body') || ''
+    }
+}
+
+
+
     useEffect(() => {
         loadMails()
     }, [])
-    
+
+    useEffect(() => {
+    const hash = window.location.hash
+    if (hash.includes('subject=') || hash.includes('body=')) {
+        setIsShowComposeModal(true)
+    }
+}, [])
+
+
     useEffect(() => {
         const combinedFilter = { ...filterBy, folder: folderFilter }
         mailsService.query(combinedFilter).then((loadedMails) => {
@@ -30,8 +52,8 @@ export function MailIndex() {
         })
     }, [filterBy, folderFilter])
 
-   function onSendMail(composedMail) {
-       composedMail.sentAt = Date.now()
+    function onSendMail(composedMail) {
+        composedMail.sentAt = Date.now()
         mailsService
             .save(composedMail)
             .then(() => {
@@ -48,8 +70,8 @@ export function MailIndex() {
         // setUnReadCounter(mails.filter(mail => !mail.isRead).length)
     }
 
-   function onToggleComposeModal() {
-       
+    function onToggleComposeModal() {
+
         setIsShowComposeModal((prevIsComposeModal) => !prevIsComposeModal)
     }
 
@@ -94,9 +116,9 @@ export function MailIndex() {
 
     if (isLoading || !mails) return <div className='loader'>Loading...</div>
     return (
-       <main>
-          <NavBar onFolderFilter={onSetFolderFilter}/>
-                <MailFilter filterBy={filterBy} onFilterBy={onSetFilterBy} />
+        <main>
+            <NavBar onFolderFilter={onSetFolderFilter} />
+            <MailFilter filterBy={filterBy} onFilterBy={onSetFilterBy} />
             <button onClick={onToggleComposeModal} className='compose-mail-btn'>
                 <i className='fa-light fa-pencil'></i> Compose{' '}
             </button>
@@ -114,8 +136,11 @@ export function MailIndex() {
                 <MailCompose
                     toggleCompose={onToggleComposeModal}
                     sendMail={onSendMail}
+                    // defaults={getMailDefaultsFromURL()}
                 />
             )}
         </main>
     )
 }
+
+

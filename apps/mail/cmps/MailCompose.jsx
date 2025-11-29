@@ -2,8 +2,18 @@ const { useState, useEffect } = React
 
 import { mailsService } from '../services/mails.service.js'
 
-export function MailCompose({ sendMail, toggleCompose }) {
+export function MailCompose({ sendMail, toggleCompose, defaults }) {
     const [mail, setMail] = useState(mailsService.getEmptyMail())
+
+useEffect(() => {
+        if (defaults) {
+            setMail(prev => ({
+                ...prev,
+                subject: defaults.subject,
+                body: defaults.body
+            }))
+        }
+    }, [defaults])
 
    function onAddMail(ev) {
        console.log('mail:', mail)
@@ -62,7 +72,7 @@ export function MailCompose({ sendMail, toggleCompose }) {
                         name='to'
                         value={mail.to}
                         onChange={handleChange}
-                        autoFocus
+                        autoFocus 
                 />
                 
                     <label className='bold-txt' htmlFor='subject'>
@@ -74,7 +84,7 @@ export function MailCompose({ sendMail, toggleCompose }) {
                         name='subject'
                         value={mail.subject}
                         onChange={handleChange}
-                />
+              />
                 
                     <label className='bold-txt' htmlFor='body'></label>
                     <input

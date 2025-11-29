@@ -1,6 +1,16 @@
 const { useState, useRef, useEffect } = React
 
-export function NotePreview({ note, onDelete, onDuplicate, onPin, onChangeColor, onEdit, onAddTodo, onDeleteTodo, onToggleTodo }) {
+export function NotePreview({ 
+    note, 
+    onDelete, 
+    onDuplicate, 
+    onPin, 
+    onChangeColor, 
+    onEdit, 
+    onAddTodo, 
+    onDeleteTodo, 
+    onToggleTodo,
+    onSendMail, }) {
 
     const [showColors, setShowColors] = useState(false)
     const [newTodoText, setNewTodoText] = useState('')
@@ -132,6 +142,7 @@ export function NotePreview({ note, onDelete, onDuplicate, onPin, onChangeColor,
                 <button onClick={() => onDelete(note.id)}>🗑️</button>
                 <button onClick={() => onDuplicate(note)}>📄</button>
                 <button onClick={() => onPin(note)}>📌</button>
+                <button onClick={() => onSendMail(note)}>✉️</button>
 
                 <div className="color-picker-wrapper" ref={pickerRef}>
                     <button

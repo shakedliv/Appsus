@@ -1,16 +1,17 @@
 
 import { NotePreview } from './NotePreview.jsx'
 
-export function NoteList({ 
-    notes, 
-    onDelete, 
-    onDuplicate, 
-    onPin, 
-    onChangeColor, 
-    onEdit, 
-    onAddTodo, 
-    onDeleteTodo, 
-    onToggleTodo }) {
+export function NoteList({
+    notes,
+    onDelete,
+    onDuplicate,
+    onPin,
+    onChangeColor,
+    onEdit,
+    onAddTodo,
+    onDeleteTodo,
+    onToggleTodo,
+    onSendMail }) {
 
     return (
         <section className="note-list">
@@ -28,6 +29,7 @@ export function NoteList({
                             onAddTodo={onAddTodo}
                             onDeleteTodo={onDeleteTodo}
                             onToggleTodo={onToggleTodo}
+                            onSendMail={onSendMail}
                         />
                     </li>
                 ))}
