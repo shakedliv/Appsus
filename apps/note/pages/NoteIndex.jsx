@@ -44,10 +44,14 @@ export function NoteIndex() {
         )
     }
 
+    // ⭐ מתוקן – שכפול יציב שלא מוחק כלום
     function onDuplicate(note) {
-        const copy = structuredClone(note)
-        delete copy.id
-        copy.createdAt = Date.now()
+        const copy = {
+            ...note,
+            id: null,
+            createdAt: Date.now(),
+            info: structuredClone(note.info)
+        }
 
         noteService.save(copy).then(saved =>
             setNotes(prev => sortNotes([saved, ...prev]))
@@ -77,15 +81,16 @@ export function NoteIndex() {
         setNoteToEdit(null)
     }
 
+    // ⭐ מתוקן – שינוי צבע שלא מוחק מידע ולא מתנגש עם setNotes
     function onChangeColor(noteId, colorClass) {
         noteService.get(noteId).then(note => {
-            const updated = { ...note, colorClass }
+            const updatedNote = { ...note, colorClass }
 
-            noteService.save(updated).then(saved =>
+            noteService.save(updatedNote).then(saved => {
                 setNotes(prev =>
                     sortNotes(prev.map(n => n.id === saved.id ? saved : n))
                 )
-            )
+            })
         })
     }
 

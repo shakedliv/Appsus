@@ -1,0 +1,32 @@
+.note-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 8px 0;
+    margin-bottom: 12px;
+}
+
+.note-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.note-logo-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #fdd835;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    font-size: 18px;
+}
+
+.note-brand-text {
+    font-size: 22px;
+    font-weight: 500;
+    color: #5f6368; 
+    letter-spacing: 0.02em;
+}
