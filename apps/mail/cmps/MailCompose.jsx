@@ -75,7 +75,7 @@ function isMailEmpty() {
                         onChange={handleChange}
                    autoFocus
                    placeholder='Recipient'
-                        autoFocus 
+                        // autoFocus 
                 />
                 
                    
@@ -89,7 +89,7 @@ function isMailEmpty() {
                    placeholder='Subject'
                 />
                         onChange={handleChange}
-              />
+              /{'>'}
                 
              <input
                 className='compose-body-input'
