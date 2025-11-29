@@ -4,6 +4,7 @@ import { noteService } from '../services/note.service.js'
 import { NoteList } from '../cmps/NoteList.jsx'
 import { NoteAdd } from '../cmps/NoteAdd.jsx'
 import { NoteEdit } from '../cmps/NoteEdit.jsx'
+import { NoteFilter } from '../cmps/NoteFilter.jsx'
 import { utilService } from '../../../services/util.service.js'
 
 export function NoteIndex() {
@@ -68,12 +69,12 @@ export function NoteIndex() {
     }
 
     function onSaveEdit(updatedNote) {
-        noteService.save(updatedNote).then(saved => {
+        noteService.save(updatedNote).then(saved =>
             setNotes(prev =>
                 sortNotes(prev.map(n => n.id === saved.id ? saved : n))
             )
-            setNoteToEdit(null)
-        })
+        )
+        setNoteToEdit(null)
     }
 
     function onChangeColor(noteId, colorClass) {
@@ -154,17 +155,12 @@ export function NoteIndex() {
     }
 
     function onSendMail(note) {
-
         let subject = note.info.title || 'My Note'
         let body = ''
 
-        if (note.type === 'NoteTxt') {
-            body = note.info.txt
-        }
+        if (note.type === 'NoteTxt') body = note.info.txt
 
-        if (note.type === 'NoteImg') {
-            body = `Check out this image:\n${note.info.url}`
-        }
+        if (note.type === 'NoteImg') body = `Check out this image:\n${note.info.url}`
 
         if (note.type === 'NoteTodos') {
             body = note.info.todos
@@ -175,16 +171,15 @@ export function NoteIndex() {
         const encodedSubject = encodeURIComponent(subject)
         const encodedBody = encodeURIComponent(body)
 
-        window.location.hash = `#/mail/compose?subject=${encodedSubject}&body=${encodedBody}`
+        window.location.hash =
+            `#/mail/compose?subject=${encodedSubject}&body=${encodedBody}`
     }
 
     const notesToShow = notes.filter(note => {
-        // פילטר לפי סוג
-        if (typeFilter !== 'all' && note.type !== typeFilter) return false
-
-        // פילטר לפי טקסט
-        const str = JSON.stringify(note.info).toLowerCase()
-        return str.includes(filterBy.txt.toLowerCase())
+        const typeOK = typeFilter === 'all' || note.type === typeFilter
+        const textOK = JSON.stringify(note.info).toLowerCase()
+            .includes(filterBy.txt.toLowerCase())
+        return typeOK && textOK
     })
 
     const pinnedNotes = notesToShow.filter(n => n.isPinned)
@@ -202,21 +197,18 @@ export function NoteIndex() {
                     >
                         All Notes
                     </button>
-
                     <button
                         className={typeFilter === 'NoteTxt' ? 'active' : ''}
                         onClick={() => setTypeFilter('NoteTxt')}
                     >
                         Text
                     </button>
-
                     <button
                         className={typeFilter === 'NoteImg' ? 'active' : ''}
                         onClick={() => setTypeFilter('NoteImg')}
                     >
                         Images
                     </button>
-
                     <button
                         className={typeFilter === 'NoteTodos' ? 'active' : ''}
                         onClick={() => setTypeFilter('NoteTodos')}
@@ -229,10 +221,9 @@ export function NoteIndex() {
 
                     <NoteAdd onAddNote={onAddNote} />
 
-                    <input
-                        type="text"
-                        placeholder="Search notes…"
-                        onChange={(ev) => setFilterBy({ txt: ev.target.value })}
+                    <NoteFilter
+                        filterBy={filterBy}
+                        onSetFilterBy={setFilterBy}
                     />
 
                     <h3 className="note-section-title">PINNED</h3>
