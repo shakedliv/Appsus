@@ -85,6 +85,20 @@ export function NoteIndex() {
         })
     }
 
+    function onToggleTodo(note, todoIdx) {
+        const updatedNote = { ...note }
+        updatedNote.info = { ...note.info }
+        updatedNote.info.todos = [...note.info.todos]
+
+        updatedNote.info.todos[todoIdx].isDone = !updatedNote.info.todos[todoIdx].isDone
+
+        noteService.save(updatedNote).then(saved => {
+            setNotes(prev =>
+                sortNotes(prev.map(n => (n.id === saved.id ? saved : n)))
+            )
+        })
+    }
+
     const pinnedNotes = notes.filter(n => n.isPinned)
     const otherNotes = notes.filter(n => !n.isPinned)
 
@@ -103,6 +117,8 @@ export function NoteIndex() {
                 onPin={onPin}
                 onChangeColor={onChangeColor}
                 onEdit={onEdit}
+                onToggleTodo={onToggleTodo}
+
             />
 
             {otherNotes.length > 0 && (
@@ -115,6 +131,8 @@ export function NoteIndex() {
                         onPin={onPin}
                         onChangeColor={onChangeColor}
                         onEdit={onEdit}
+                        onToggleTodo={onToggleTodo}
+
                     />
                 </div>
             )}
@@ -131,17 +149,6 @@ export function NoteIndex() {
     )
 }
 
-function onToggleTodo(note, idx) {
-    const updated = { ...note }
-    updated.info = { ...note.info }
-    updated.info.todos = [...note.info.todos]
 
-    updated.info.todos[idx].isDone = !updated.info.todos[idx].isDone
 
-    noteService.save(updated).then(saved => {
-        setNotes(prev =>
-            sortNotes(prev.map(n => (n.id === saved.id ? saved : n)))
-        )
-    })
-}
 
