@@ -6,11 +6,11 @@ import { NoteAdd } from '../cmps/NoteAdd.jsx'
 import { NoteEdit } from '../cmps/NoteEdit.jsx'
 import { utilService } from '../../../services/util.service.js'
 
-
 export function NoteIndex() {
 
     const [notes, setNotes] = useState([])
     const [noteToEdit, setNoteToEdit] = useState(null)
+    const [filterBy, setFilterBy] = useState({ txt: '' })
 
     useEffect(() => {
         loadNotes()
@@ -88,29 +88,29 @@ export function NoteIndex() {
     }
 
     function onAddTodo(noteId, txt) {
-    setNotes(prevNotes =>
-        prevNotes.map(note => {
-            if (note.id !== noteId) return note
+        setNotes(prevNotes =>
+            prevNotes.map(note => {
+                if (note.id !== noteId) return note
 
-            const newTodo = {
-                id: utilService.makeId(),
-                txt,
-                isDone: false
-            }
-
-            const updatedNote = {
-                ...note,
-                info: {
-                    ...note.info,
-                    todos: [...note.info.todos, newTodo]
+                const newTodo = {
+                    id: utilService.makeId(),
+                    txt,
+                    isDone: false
                 }
-            }
 
-            noteService.save(updatedNote)
-            return updatedNote
-        })
-    )
-}
+                const updatedNote = {
+                    ...note,
+                    info: {
+                        ...note.info,
+                        todos: [...note.info.todos, newTodo]
+                    }
+                }
+
+                noteService.save(updatedNote)
+                return updatedNote
+            })
+        )
+    }
 
     function onDeleteTodo(noteId, todoId) {
         setNotes(prevNotes =>
@@ -131,62 +131,70 @@ export function NoteIndex() {
     }
 
     function onToggleTodo(noteId, todoId) {
-    setNotes(prevNotes =>
-        prevNotes.map(note => {
-            if (note.id !== noteId) return note
+        setNotes(prevNotes =>
+            prevNotes.map(note => {
+                if (note.id !== noteId) return note
 
-            const updatedTodos = note.info.todos.map(todo =>
-                todo.id === todoId
-                    ? { ...todo, isDone: !todo.isDone }
-                    : todo
-            )
+                const updatedTodos = note.info.todos.map(todo =>
+                    todo.id === todoId
+                        ? { ...todo, isDone: !todo.isDone }
+                        : todo
+                )
 
-            const updatedNote = {
-                ...note,
-                info: { ...note.info, todos: updatedTodos }
-            }
+                const updatedNote = {
+                    ...note,
+                    info: { ...note.info, todos: updatedTodos }
+                }
 
-            noteService.save(updatedNote)
-            return updatedNote
-        })
-    )
-}
-
-function onSendMail(note) {
-
-    let subject = note.info.title || 'My Note'
-    let body = ''
-
-    if (note.type === 'NoteTxt') {
-        body = note.info.txt
+                noteService.save(updatedNote)
+                return updatedNote
+            })
+        )
     }
 
-    if (note.type === 'NoteImg') {
-        body = `Check out this image:\n${note.info.url}`
+    function onSendMail(note) {
+
+        let subject = note.info.title || 'My Note'
+        let body = ''
+
+        if (note.type === 'NoteTxt') {
+            body = note.info.txt
+        }
+
+        if (note.type === 'NoteImg') {
+            body = `Check out this image:\n${note.info.url}`
+        }
+
+        if (note.type === 'NoteTodos') {
+            body = note.info.todos
+                .map(t => `${t.isDone ? '✔️' : '⬜'} ${t.txt}`)
+                .join('\n')
+        }
+
+        const encodedSubject = encodeURIComponent(subject)
+        const encodedBody = encodeURIComponent(body)
+
+        window.location.hash = `#/mail/compose?subject=${encodedSubject}&body=${encodedBody}`
     }
 
-    if (note.type === 'NoteTodos') {
-        body = note.info.todos
-            .map(t => `${t.isDone ? '✔️' : '⬜'} ${t.txt}`)
-            .join('\n')
-    }
+    const notesToShow = notes.filter(note => {
+        const str = JSON.stringify(note.info).toLowerCase()
+        return str.includes(filterBy.txt.toLowerCase())
+    })
 
-    const encodedSubject = encodeURIComponent(subject)
-    const encodedBody = encodeURIComponent(body)
-
-    window.location.hash = `#/mail/compose?subject=${encodedSubject}&body=${encodedBody}`
-}
-
-
-    const pinnedNotes = notes.filter(n => n.isPinned)
-    const otherNotes = notes.filter(n => !n.isPinned)
+    const pinnedNotes = notesToShow.filter(n => n.isPinned)
+    const otherNotes = notesToShow.filter(n => !n.isPinned)
 
     return (
         <section className="note-index">
 
             <NoteAdd onAddNote={onAddNote} />
 
-
+            <input
+                type="text"
+                placeholder="Search notes…"
+                onChange={(ev) => setFilterBy({ txt: ev.target.value })}
+            />
 
             <h3 className="note-section-title">PINNED</h3>
             <NoteList
@@ -200,7 +208,6 @@ function onSendMail(note) {
                 onDeleteTodo={onDeleteTodo}
                 onToggleTodo={onToggleTodo}
                 onSendMail={onSendMail}
-
             />
 
             {otherNotes.length > 0 && (
@@ -217,7 +224,6 @@ function onSendMail(note) {
                         onDeleteTodo={onDeleteTodo}
                         onToggleTodo={onToggleTodo}
                         onSendMail={onSendMail}
-
                     />
                 </div>
             )}
@@ -233,11 +239,3 @@ function onSendMail(note) {
         </section>
     )
 }
-
-
-
-
-
-
-
-
