@@ -64,11 +64,25 @@ function getEmptyNote(txt = '', type = 'NoteTxt') {
         colorClass: utilService.getRandomKeepColor(),
         info: {},
     }
+
     if (type === 'NoteTxt') {
+        note.info.title = ''
         note.info.txt = txt
     }
+
+    if (type === 'NoteImg') {
+        note.info.title = ''
+        note.info.url = ''
+    }
+
+    if (type === 'NoteTodos') {
+        note.info.title = ''
+        note.info.todos = []
+    }
+
     return note
 }
+
 
 function _createDemoNotes() {
     let notes = utilService.loadFromStorage(NOTE_KEY)

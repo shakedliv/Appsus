@@ -22,14 +22,16 @@ export function NotePreview({ note, onDelete, onDuplicate, onPin, onChangeColor,
 
             case 'NoteTxt':
                 return (
-                    <p className="note-content note-txt">
-                        {note.info.txt}
-                    </p>
+                    <div className="note-content note-txt">
+                        {note.info.title && <h4 className="note-title">{note.info.title}</h4>}
+                        <p>{note.info.txt}</p>
+                    </div>
                 )
 
             case 'NoteImg':
                 return (
                     <div className="note-content note-img">
+                        {note.info.title && <h4 className="note-title">{note.info.title}</h4>}
                         <img src={note.info.url} alt={note.info.title || 'note image'} />
                     </div>
                 )
