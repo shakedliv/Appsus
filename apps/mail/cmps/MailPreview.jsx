@@ -10,19 +10,14 @@ export function MailPreview({ mail, removeMail, toggleIsRead }) {
     const [mailRead, setMailRead] = useState(mail.isRead)
     function onSetIsRead(mailId) {
         mailsService.setIsRead(mailId)
-   }
-   
+    }
+
     function onRemoveMail(ev) {
         ev.stopPropagation()
-       ev.preventDefault()
-       if(mail.removeAt)
-          removeMail(mail.id)
-      //  else {
-      //     mail.removeAt = Date.now()
-      //     console.log('mail:', mail)
-      //  }
-   }
-   
+        ev.preventDefault()
+        removeMail(mail.id)
+    }
+
     function onToggleIsRead(ev) {
         // need to also update the unread mails count
         ev.stopPropagation()
@@ -31,7 +26,6 @@ export function MailPreview({ mail, removeMail, toggleIsRead }) {
         setMailRead((prev) => !prev)
     }
 
-   
     return (
         <Link to={`/mail/${mail.id}`}>
             <article

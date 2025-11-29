@@ -3,10 +3,10 @@ import { MailList } from '../cmps/MailList.jsx'
 import { MailCompose } from '../cmps/MailCompose.jsx'
 
 import {
-   showSuccessMsg,
-   showErrorMsg,
+    showSuccessMsg,
+    showErrorMsg,
 } from '../../../services/event-bus.service.js'
-// 
+//
 import { NavBar } from '../cmps/NavBar.jsx'
 import { MailHeader } from '../cmps/MailHeader.jsx'
 
@@ -19,7 +19,7 @@ export function MailIndex() {
     const [isLoading, setIsLoading] = useState(true)
 
     const [filterBy, setFilterBy] = useState(mailsService.getDefaultFilter())
-   const [folderFilter, setFolderFilter] = useState('inbox')
+    const [folderFilter, setFolderFilter] = useState('inbox')
 
     useEffect(() => {
         loadMails()
@@ -42,7 +42,8 @@ export function MailIndex() {
             .catch((err) => {
                 console.log('err:', err)
             })
-    }
+   }
+
     function onSaveDraft(composedMail) {
         mailsService
             .save(composedMail)
@@ -81,25 +82,47 @@ export function MailIndex() {
         setFilterBy((filter) => ({ ...filter, ...newFilter }))
     }
 
-    function onSetFolderFilter(filterObj) {
+   function onSetFolderFilter(filterObj) {
+       console.log('filterObj:', filterObj)
         setFolderFilter(filterObj.folder)
     }
-
+   function moveToTrash(mailId) {
+      const newMails = [];
+      mails.forEach((mail) => {
+         if (mailId === mail.id) {
+            const newMail = { ...mail, removedAt: Date.now() };
+            mailsService.save(newMail)
+         } else {
+            newMails.push(mail)
+         }
+      })
+        setMails(newMails)
+       console.log('mails:', mails)
+    }
+    function findMailById(mailId) {
+        return mails.find((mail) => {
+            return mail.id === mailId
+        })
+    }
    function removeMail(mailId) {
-        mailsService
-            .remove(mailId)
-            .then(() =>
-                setMails((prevMails) =>
-                    prevMails.filter((mail) => mailId !== mail.id)
+       console.log('mailId:', mailId)
+        if (!findMailById(mailId).removedAt) moveToTrash(mailId)
+        else {
+            mailsService
+                .remove(mailId)
+                .then(() =>
+                    setMails((prevMails) =>
+                        prevMails.filter((mail) => mailId !== mail.id)
+                    )
                 )
-            )
-            .catch(() => {
-               //  showErrorMsg(`couldn't remove mail`)
-                  // navigate('/mail')
-            })
-            .finally(() => {
-               //  showSuccessMsg('Mail has been successfully removed!')
-            })
+                .catch(() => {
+                    //  showErrorMsg(`couldn't remove mail`)
+                    // navigate('/mail')
+                })
+                .finally(() => {
+                    //  showSuccessMsg('Mail has been successfully removed!')
+                })
+        }
     }
 
     const [isMenuOpen, setISMenuOpen] = useState(false)
@@ -110,8 +133,12 @@ export function MailIndex() {
 
     if (isLoading || !mails) return <div className='loader'>Loading...</div>
     return (
-       <div>
-          <MailHeader toggleMenu={toggleMenu} onSetFilterBy={onSetFilterBy} filterBy={filterBy } />
+        <div>
+            <MailHeader
+                toggleMenu={toggleMenu}
+                onSetFilterBy={onSetFilterBy}
+                filterBy={filterBy}
+            />
             <main className='app-container'>
                 <section>
                     <NavBar
