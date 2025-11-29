@@ -11,6 +11,7 @@ export function NoteIndex() {
     const [notes, setNotes] = useState([])
     const [noteToEdit, setNoteToEdit] = useState(null)
     const [filterBy, setFilterBy] = useState({ txt: '' })
+    const [typeFilter, setTypeFilter] = useState('all')
 
     useEffect(() => {
         loadNotes()
@@ -178,6 +179,10 @@ export function NoteIndex() {
     }
 
     const notesToShow = notes.filter(note => {
+        // פילטר לפי סוג
+        if (typeFilter !== 'all' && note.type !== typeFilter) return false
+
+        // פילטר לפי טקסט
         const str = JSON.stringify(note.info).toLowerCase()
         return str.includes(filterBy.txt.toLowerCase())
     })
@@ -188,33 +193,52 @@ export function NoteIndex() {
     return (
         <section className="note-index">
 
-            <NoteAdd onAddNote={onAddNote} />
+            <div className="note-layout">
 
-            <input
-                type="text"
-                placeholder="Search notes…"
-                onChange={(ev) => setFilterBy({ txt: ev.target.value })}
-            />
+                <aside className="note-sidebar">
+                    <button
+                        className={typeFilter === 'all' ? 'active' : ''}
+                        onClick={() => setTypeFilter('all')}
+                    >
+                        All Notes
+                    </button>
 
-            <h3 className="note-section-title">PINNED</h3>
-            <NoteList
-                notes={pinnedNotes}
-                onDelete={onDelete}
-                onDuplicate={onDuplicate}
-                onPin={onPin}
-                onChangeColor={onChangeColor}
-                onEdit={onEdit}
-                onAddTodo={onAddTodo}
-                onDeleteTodo={onDeleteTodo}
-                onToggleTodo={onToggleTodo}
-                onSendMail={onSendMail}
-            />
+                    <button
+                        className={typeFilter === 'NoteTxt' ? 'active' : ''}
+                        onClick={() => setTypeFilter('NoteTxt')}
+                    >
+                        Text
+                    </button>
 
-            {otherNotes.length > 0 && (
-                <div className="other-notes-section">
-                    <h3 className="note-section-title">OTHERS</h3>
+                    <button
+                        className={typeFilter === 'NoteImg' ? 'active' : ''}
+                        onClick={() => setTypeFilter('NoteImg')}
+                    >
+                        Images
+                    </button>
+
+                    <button
+                        className={typeFilter === 'NoteTodos' ? 'active' : ''}
+                        onClick={() => setTypeFilter('NoteTodos')}
+                    >
+                        Todos
+                    </button>
+                </aside>
+
+                <div className="note-main">
+
+                    <NoteAdd onAddNote={onAddNote} />
+
+                    <input
+                        type="text"
+                        placeholder="Search notes…"
+                        onChange={(ev) => setFilterBy({ txt: ev.target.value })}
+                    />
+
+                    <h3 className="note-section-title">PINNED</h3>
+
                     <NoteList
-                        notes={otherNotes}
+                        notes={pinnedNotes}
                         onDelete={onDelete}
                         onDuplicate={onDuplicate}
                         onPin={onPin}
@@ -225,16 +249,36 @@ export function NoteIndex() {
                         onToggleTodo={onToggleTodo}
                         onSendMail={onSendMail}
                     />
-                </div>
-            )}
 
-            {noteToEdit && (
-                <NoteEdit
-                    note={noteToEdit}
-                    onSave={onSaveEdit}
-                    onClose={() => setNoteToEdit(null)}
-                />
-            )}
+                    {otherNotes.length > 0 && (
+                        <div className="other-notes-section">
+                            <h3 className="note-section-title">OTHERS</h3>
+                            <NoteList
+                                notes={otherNotes}
+                                onDelete={onDelete}
+                                onDuplicate={onDuplicate}
+                                onPin={onPin}
+                                onChangeColor={onChangeColor}
+                                onEdit={onEdit}
+                                onAddTodo={onAddTodo}
+                                onDeleteTodo={onDeleteTodo}
+                                onToggleTodo={onToggleTodo}
+                                onSendMail={onSendMail}
+                            />
+                        </div>
+                    )}
+
+                    {noteToEdit && (
+                        <NoteEdit
+                            note={noteToEdit}
+                            onSave={onSaveEdit}
+                            onClose={() => setNoteToEdit(null)}
+                        />
+                    )}
+
+                </div>
+
+            </div>
 
         </section>
     )

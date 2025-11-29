@@ -1,0 +1,59 @@
+
+.note-layout {
+    display: block;
+}
+
+.note-sidebar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+}
+
+.note-sidebar button {
+    padding: 8px 12px;
+    border: none;
+    background: #e7e7e7;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.note-sidebar button.active {
+    background: #fce588;
+    border-left: 4px solid #f4b400;
+    font-weight: 600;
+}
+
+.note-main {
+    width: 100%;
+}
+
+@media (min-width: 700px) {
+
+    .note-layout {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start; 
+        gap: 24px;
+    }
+
+    .note-sidebar {
+        display: flex;
+        flex-direction: column;
+        width: 140px;
+        margin: 0;
+        position: sticky;
+        top: 140px;
+        align-self: flex-start;
+    }
+
+    .note-sidebar button {
+        width: 100%;
+        text-align: left;
+    }
+
+    .note-main {
+        flex: 1;
+        width: auto;
+    }
+}
