@@ -10,7 +10,8 @@ export function NotePreview({
     onAddTodo, 
     onDeleteTodo, 
     onToggleTodo,
-    onSendMail, }) {
+    onSendMail, 
+}) {
 
     const [showColors, setShowColors] = useState(false)
     const [newTodoText, setNewTodoText] = useState('')
@@ -47,7 +48,6 @@ export function NotePreview({
                 )
 
             case 'NoteTodos':
-
                 const sortedTodos = [...note.info.todos].sort((a, b) => {
                     if (a.isDone && !b.isDone) return 1
                     if (!a.isDone && b.isDone) return -1
@@ -64,8 +64,6 @@ export function NotePreview({
                                     key={todo.id}
                                     className={`todo-line ${todo.isDone ? "done" : ""}`}
                                 >
-
-
                                     <div
                                         className={`todo-checkbox ${todo.isDone ? "checked" : ""}`}
                                         onClick={() => onToggleTodo(note.id, todo.id)}
@@ -132,6 +130,22 @@ export function NotePreview({
         }
     }
 
+    const COLORS = [
+        'no-color',
+        'note-color-1',
+        'note-color-2',
+        'note-color-3',
+        'note-color-4',
+        'note-color-5',
+        'note-color-6',
+        'note-color-7',
+        'note-color-8',
+        'note-color-9',
+        'note-color-10',
+        'note-color-11',
+        'note-color-12'
+    ]
+
     return (
         <article className={`note-preview ${note.colorClass || ''}`}>
 
@@ -154,17 +168,16 @@ export function NotePreview({
 
                     {showColors && (
                         <div className="color-popup">
-                            {['note-yellow', 'note-red', 'note-orange', 'note-green', 'note-blue', 'note-pink']
-                                .map(colorClass => (
-                                    <button
-                                        key={colorClass}
-                                        className={`color-option ${colorClass}`}
-                                        onClick={() => {
-                                            onChangeColor(note.id, colorClass)
-                                            setShowColors(false)
-                                        }}
-                                    ></button>
-                                ))}
+                            {COLORS.map(colorClass => (
+                                <button
+                                    key={colorClass}
+                                    className={`color-option ${colorClass}`}
+                                    onClick={() => {
+                                        onChangeColor(note.id, colorClass)
+                                        setShowColors(false)
+                                    }}
+                                ></button>
+                            ))}
                         </div>
                     )}
                 </div>

@@ -20,11 +20,12 @@
     position: absolute;
     bottom: 120%;
     left: 0;
-    display: flex;
-    gap: 6px;
+    display: grid;
+    grid-template-columns: repeat(4, 24px);
+    gap: 8px;
     background: white;
-    padding: 10px;
-    border-radius: 8px;
+    padding: 12px;
+    border-radius: 10px;
     box-shadow:
         0 2px 6px rgba(0,0,0,0.15),
         0 4px 12px rgba(0,0,0,0.15);
@@ -35,20 +36,29 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    border: none;
+    border: 1px solid #0002;
     cursor: pointer;
-    display: inline-block;
+    transition: transform 0.15s ease;
 }
-
 
 .color-option:hover {
     transform: scale(1.2);
     box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
 }
 
-.color-option.note-yellow { background-color: #fef3b7; }
-.color-option.note-blue   { background-color: #d7e3fc; }
-.color-option.note-red    { background-color: #ffd7d7; }
-.color-option.note-orange { background-color: #ffe7c7; }
-.color-option.note-green  { background-color: #e1f5d3; }
-.color-option.note-pink   { background-color: #ffd9f1; }
+/* ========== COLORS ========== */
+
+.color-option.no-color { background-color: #ffffff; border: 1px solid #00000050; }
+
+.color-option.note-color-1  { background-color: var(--note-color-1); }
+.color-option.note-color-2  { background-color: var(--note-color-2); }
+.color-option.note-color-3  { background-color: var(--note-color-3); }
+.color-option.note-color-4  { background-color: var(--note-color-4); }
+.color-option.note-color-5  { background-color: var(--note-color-5); }
+.color-option.note-color-6  { background-color: var(--note-color-6); }
+.color-option.note-color-7  { background-color: var(--note-color-7); }
+.color-option.note-color-8  { background-color: var(--note-color-8); }
+.color-option.note-color-9  { background-color: var(--note-color-9); }
+.color-option.note-color-10 { background-color: var(--note-color-10); }
+.color-option.note-color-11 { background-color: var(--note-color-11); }
+.color-option.note-color-12 { background-color: var(--note-color-12); }

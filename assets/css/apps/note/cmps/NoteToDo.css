@@ -1,4 +1,6 @@
 .note-todos ul {
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -7,8 +9,8 @@
 .note-todos li {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 6px 0;
+    gap: 8px;
+    padding: 4px 0;
     cursor: pointer;
 }
 
@@ -18,10 +20,10 @@
 }
 
 .todo-checkbox {
-    width: 18px;
-    height: 18px;
-    border: 2px solid #666;
-    border-radius: 4px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #555;
+    border-radius: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -38,30 +40,6 @@
     font-size: 12px;
 }
 
-.note-todos ul {
-    padding: 0;
-    margin: 0;
-}
-
-.note-todos li {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 4px 0;
-    cursor: pointer;
-}
-
-.todo-checkbox {
-    width: 16px;
-    height: 16px;
-    border: 2px solid #555;
-    border-radius: 3px;
-}
-
-.todo-checkbox.checked {
-    background-color: #555;
-}
-
 .todo-add button {
     background: none;
     border: none;
@@ -69,6 +47,7 @@
     cursor: pointer;
     font-size: 0.9rem;
 }
+
 .todo-delete-btn {
     background: none;
     border: none;
@@ -104,5 +83,5 @@
     border: none;
     background-color: #4caf50;
     color: white;
-    border-radius:
+    border-radius: 4px;
 }

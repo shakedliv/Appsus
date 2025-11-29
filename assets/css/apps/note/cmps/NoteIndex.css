@@ -1,4 +1,24 @@
 
+:root {
+    /* No color */
+    --note-color-none: #ffffff;
+
+    /* Google Keep colors */
+    --note-color-1: #f5f5f5;   /* Light grey */
+    --note-color-2: #f3e8d3;   /* Beige */
+    --note-color-3: #fde7e4;   /* Light peach */
+    --note-color-4: #eadcf4;   /* Lilac */
+    --note-color-5: #d2e3fc;   /* Light blue */
+    --note-color-6: #aecbfa;   /* Blue */
+    --note-color-7: #a7ffeb;   /* Mint */
+    --note-color-8: #ccff90;   /* Light green */
+    --note-color-9: #fff475;   /* Yellow */
+    --note-color-10: #ffd7a0;  /* Orange */
+    --note-color-11: #ffadad;  /* Pink */
+    --note-color-12: #e6c9a8;  /* Tan */
+}
+
+
 .note-index {
     padding: 16px;
 }
@@ -88,7 +108,20 @@
     opacity: 0.6;
 }
 
-.note-yellow {
+.note {
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid transparent;
+}
+
+.note.no-color {
+    background-color: var(--note-color-none);
+    border: 1px solid #00000030;
+}
+
+
+
+/* .note-yellow {
     background-color: #fef3b7;
 }
 
@@ -110,4 +143,4 @@
 
 .note-pink {
     background-color: #ffd9f1;
-}
+} */
