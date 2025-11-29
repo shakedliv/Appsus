@@ -1,4 +1,3 @@
-
 const { useState, useRef, useEffect } = React
 
 export function NotePreview({ note, onDelete, onDuplicate, onPin, onChangeColor, onEdit, onToggleTodo }) {
@@ -34,18 +33,28 @@ export function NotePreview({ note, onDelete, onDuplicate, onPin, onChangeColor,
                 )
 
             case 'NoteTodos':
+
+                const sortedTodos = [...note.info.todos].sort((a, b) => {
+                    if (a.isDone && !b.isDone) return 1
+                    if (!a.isDone && b.isDone) return -1
+                    return 0
+                })
+
                 return (
                     <div className="note-content note-todos">
                         <h4>{note.info.title}</h4>
                         <ul>
-                            {note.info.todos.map((todo, idx) => (
+                            {sortedTodos.map(todo => (
+
                                 <li
-                                    key={idx}
-                                    className={todo.isDone ? 'done' : ''}
-                                    onClick={() => onToggleTodo(note, idx)}
+                                    key={todo.id}
+                                    className={todo.isDone ? "done" : ""}
+                                    onClick={() => onToggleTodo(note.id, todo.id)}
                                 >
-                                    {todo.txt}
+                                    <div className={`todo-checkbox ${todo.isDone ? "checked" : ""}`}></div>
+                                    <span>{todo.txt}</span>
                                 </li>
+
                             ))}
                         </ul>
                     </div>
@@ -99,4 +108,3 @@ export function NotePreview({ note, onDelete, onDuplicate, onPin, onChangeColor,
         </article>
     )
 }
-

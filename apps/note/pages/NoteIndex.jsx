@@ -85,19 +85,27 @@ export function NoteIndex() {
         })
     }
 
-    function onToggleTodo(note, todoIdx) {
-        const updatedNote = { ...note }
-        updatedNote.info = { ...note.info }
-        updatedNote.info.todos = [...note.info.todos]
+    function onToggleTodo(noteId, todoId) {
+    setNotes(prevNotes =>
+        prevNotes.map(note => {
+            if (note.id !== noteId) return note
 
-        updatedNote.info.todos[todoIdx].isDone = !updatedNote.info.todos[todoIdx].isDone
-
-        noteService.save(updatedNote).then(saved => {
-            setNotes(prev =>
-                sortNotes(prev.map(n => (n.id === saved.id ? saved : n)))
+            const updatedTodos = note.info.todos.map(todo =>
+                todo.id === todoId
+                    ? { ...todo, isDone: !todo.isDone }
+                    : todo
             )
+
+            const updatedNote = {
+                ...note,
+                info: { ...note.info, todos: updatedTodos }
+            }
+
+            noteService.save(updatedNote)
+            return updatedNote
         })
-    }
+    )
+}
 
     const pinnedNotes = notes.filter(n => n.isPinned)
     const otherNotes = notes.filter(n => !n.isPinned)

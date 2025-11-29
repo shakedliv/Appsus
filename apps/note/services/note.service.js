@@ -25,8 +25,17 @@ function get(noteId) {
 }
 
 function save(note) {
+
+    if (note.info && note.info.todos) {
+        note.info.todos = note.info.todos.map(todo => ({
+            id: todo.id || utilService.makeId(),
+            txt: todo.txt,
+            isDone: !!todo.isDone
+        }))
+    }
+
     if (note.id) {
-        note.colorClass = note.colorClass || utilService.getRandomKeepColor()  // ⬅️ השורה החסרה
+        note.colorClass = note.colorClass || utilService.getRandomKeepColor()
         return storageService.put(NOTE_KEY, note)
 
     } else {
@@ -36,6 +45,7 @@ function save(note) {
         return storageService.post(NOTE_KEY, note)
     }
 }
+
 
 
 function remove(noteId) {
@@ -61,7 +71,6 @@ function _createDemoNotes() {
     if (notes && notes.length) return
 
     notes = [
-        // === PINNED NOTES (2) ===
         {
             id: utilService.makeId(),
             createdAt: Date.now() - 1000 * 60 * 60 * 12,
@@ -84,7 +93,6 @@ function _createDemoNotes() {
             },
         },
 
-        // === REGULAR NOTES ===
         {
             id: utilService.makeId(),
             createdAt: Date.now() - 1000 * 60 * 60 * 24,
@@ -125,9 +133,9 @@ function _createDemoNotes() {
             info: {
                 title: 'Get my stuff together',
                 todos: [
-                    { txt: 'Driving license', isDone: true },
-                    { txt: 'Coding power', isDone: false },
-                ],
+                    getEmptyTodo('Driving license', true),
+                    getEmptyTodo('Coding power', false),
+                ]
             },
         },
     ]
@@ -135,3 +143,10 @@ function _createDemoNotes() {
     utilService.saveToStorage(NOTE_KEY, notes)
 }
 
+function getEmptyTodo(txt = '', isDone = false) {
+    return {
+        id: utilService.makeId(),
+        txt,
+        isDone
+    }
+}
