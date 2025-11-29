@@ -22,6 +22,7 @@ export function MailIndex() {
     const [folderFilter, setFolderFilter] = useState('inbox')
 
     useEffect(() => {
+        
         loadMails()
     }, [])
 
